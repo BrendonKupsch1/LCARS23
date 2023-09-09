@@ -45,6 +45,15 @@ var TSOS;
             // prompt <string>
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
+            // date
+            sc = new TSOS.ShellCommand(this.shellDate, "date", "- Displays the current date and time.");
+            this.commandList[this.commandList.length] = sc;
+            // whereami
+            sc = new TSOS.ShellCommand(this.shellWhereAmI, "whereami", "- Displays your current location.");
+            this.commandList[this.commandList.length] = sc;
+            // deepspacemessage
+            sc = new TSOS.ShellCommand(this.shellDeepSpaceMessage, "deepspacemessage", "- Displays a message picked up from deep space.");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -260,6 +269,19 @@ var TSOS;
             else {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
+        }
+        shellDate(args) {
+            var date = new Date();
+            _StdOut.putText(date.toString());
+        }
+        shellWhereAmI(args) {
+            _StdOut.putText("You are on Ferenginar (I hope you have an umbrella).");
+        }
+        shellDeepSpaceMessage(args) {
+            const message = ["we are the borg, resistance is futile, you will be assimilated", "Do not interfere with the order of the Dominion!",
+                "This is the Romulan Star Empire... we aren't up to anything...", "The Klngon Empire will fight any battle, Qovpatlhs!"];
+            const random = Math.floor(Math.random() * message.length);
+            _StdOut.putText(message[random]);
         }
     }
     TSOS.Shell = Shell;

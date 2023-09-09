@@ -73,6 +73,27 @@ module TSOS {
                                   "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
 
+            // date
+            sc = new ShellCommand(this.shellDate,
+                                    "date",
+                                    "- Displays the current date and time.");
+            this.commandList[this.commandList.length] = sc;
+
+            // whereami
+            sc = new ShellCommand(this.shellWhereAmI,
+                                    "whereami",
+                                    "- Displays your current location.");
+            this.commandList[this.commandList.length] = sc;
+
+            // deepspacemessage
+            sc = new ShellCommand(this.shellDeepSpaceMessage,
+                                    "deepspacemessage",
+                                    "- Displays a message picked up from deep space.");
+            this.commandList[this.commandList.length] = sc;
+
+
+
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -301,5 +322,20 @@ module TSOS {
             }
         }
 
+        public shellDate(args: string[]) {
+            var date = new Date();
+            _StdOut.putText(date.toString());
+        }
+
+        public shellWhereAmI(args: string[]) {
+            _StdOut.putText("You are on Ferenginar (I hope you have an umbrella).");
+        }
+
+        public shellDeepSpaceMessage(args: string[]) {
+            const message = ["we are the borg, resistance is futile, you will be assimilated", "Do not interfere with the order of the Dominion!",
+             "This is the Romulan Star Empire... we aren't up to anything...", "The Klngon Empire will fight any battle, Qovpatlhs!"];
+             const random = Math.floor(Math.random() * message.length);
+            _StdOut.putText(message[random]);
     }
+}
 }
