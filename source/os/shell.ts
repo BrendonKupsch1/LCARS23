@@ -91,7 +91,11 @@ module TSOS {
                                     "- Displays a message picked up from deep space.");
             this.commandList[this.commandList.length] = sc;
 
-
+            // lcars
+            sc = new ShellCommand(this.shellLCARS,
+                                    "lcars",
+                                    "- Displays information about LCARS23.");
+            this.commandList[this.commandList.length] = sc;
 
 
             // ps  - list the running processes and their IDs
@@ -336,6 +340,10 @@ module TSOS {
              "This is the Romulan Star Empire... we aren't up to anything...", "The Klngon Empire will fight any battle, Qovpatlhs!"];
              const random = Math.floor(Math.random() * message.length);
             _StdOut.putText(message[random]);
+        }
+
+        public shellLCARS(args: string[]) {
+            _StdOut.putText("LCARS23 is the Library Computer Access/Retrieval System for the 21st century.");
+        }
     }
-}
 }

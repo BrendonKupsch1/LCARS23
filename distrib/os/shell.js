@@ -54,6 +54,9 @@ var TSOS;
             // deepspacemessage
             sc = new TSOS.ShellCommand(this.shellDeepSpaceMessage, "deepspacemessage", "- Displays a message picked up from deep space.");
             this.commandList[this.commandList.length] = sc;
+            // lcars
+            sc = new TSOS.ShellCommand(this.shellLCARS, "lcars", "- Displays information about LCARS23.");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -278,10 +281,13 @@ var TSOS;
             _StdOut.putText("You are on Ferenginar (I hope you have an umbrella).");
         }
         shellDeepSpaceMessage(args) {
-            const message = ["we are the borg, resistance is futile, you will be assimilated", "Do not interfere with the order of the Dominion!",
+            const message = ["we are the borg, resistance is futile, you will be assimilated", "Do not interfere with the order of the Dominion.",
                 "This is the Romulan Star Empire... we aren't up to anything...", "The Klngon Empire will fight any battle, Qovpatlhs!"];
             const random = Math.floor(Math.random() * message.length);
             _StdOut.putText(message[random]);
+        }
+        shellLCARS(args) {
+            _StdOut.putText("LCARS23 is the Library Computer Access/Retrieval System for the 21st century.");
         }
     }
     TSOS.Shell = Shell;
