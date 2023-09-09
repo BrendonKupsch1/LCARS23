@@ -97,6 +97,12 @@ module TSOS {
                                     "- Displays information about LCARS23.");
             this.commandList[this.commandList.length] = sc;
 
+            // status <string>
+            sc = new ShellCommand(this.shellStatus,
+                                    "status",
+                                    "<string> - Sets the status message.");
+            this.commandList[this.commandList.length] = sc;
+
 
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -344,6 +350,15 @@ module TSOS {
 
         public shellLCARS(args: string[]) {
             _StdOut.putText("LCARS23 is the Library Computer Access/Retrieval System for the 21st century.");
+        }
+
+        public shellStatus(args: string[]) {
+            if (args.length > 0) {
+                var status = args.join(' ');
+                document.getElementById("taStatus").innerHTML = status;
+            } else {
+                _StdOut.putText("Usage: status <string>  Please supply a string.");
+            }
         }
     }
 }

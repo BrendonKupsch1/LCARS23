@@ -52,6 +52,7 @@ module TSOS {
             }
         }
 
+
         public putText(text): void {
             /*  My first inclination here was to write two functions: putChar() and putString().
                 Then I remembered that JavaScript is (sadly) untyped and it won't differentiate
