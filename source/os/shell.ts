@@ -332,7 +332,7 @@ module TSOS {
         }
 
         public shellDeepSpaceMessage(args: string[]) {
-            const message = ["we are the borg, resistance is futile, you will be assimilated", "Do not interfere with the order of the Dominion!",
+            const message = ["we are the borg, resistance is futile, you will be assimilated", "Do not interfere with the order of the Dominion.",
              "This is the Romulan Star Empire... we aren't up to anything...", "The Klngon Empire will fight any battle, Qovpatlhs!"];
              const random = Math.floor(Math.random() * message.length);
             _StdOut.putText(message[random]);
