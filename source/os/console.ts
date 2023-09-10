@@ -72,11 +72,6 @@ module TSOS {
 
         public advanceLine(): void {
             this.currentXPosition = 0;
-            /*
-             * Font size measures from the baseline to the highest point in the font.
-             * Font descent measures from the baseline to the lowest point in the font.
-             * Font height margin is extra spacing between the lines.
-             */
             this.currentYPosition += _DefaultFontSize + 
                                      _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                                      _FontHeightMargin;
@@ -100,12 +95,17 @@ module TSOS {
         }
 
         public backspace(): void {
-            // removes the last character from the buffer
-            this.buffer = this.buffer.substring(0, this.buffer.length - 1);
-            // removes the last character from the canvas
-            _DrawingContext.clearRect(this.currentXPosition - 10, this.currentYPosition - 20, 10, 20);
-            // moves the current x position back one character
-            this.currentXPosition = this.currentXPosition - 10;
+            var stringBufferLength = this.buffer.length;
+            var lastChar = stringBufferLength - 1;
+
+            this.buffer = this.buffer.substring(0,lastChar);
+
+            // clear line
+            _DrawingContext.clearRect(0, this.currentYPosition-this.currentFontSize, _Canvas.width,this.currentFontSize + 10);
+            this.currentXPosition=0;
+
+            // replace text with buffer
+            this.putText(">" + this.buffer);
         }
     }
  }

@@ -45,6 +45,50 @@ var TSOS;
                 chr = String.fromCharCode(keyCode);
                 _KernelInputQueue.enqueue(chr);
             }
+            else if ((keyCode >= 186) && (keyCode <= 192)) { // punctuation
+                if (isShifted === true) {
+                    if (keyCode == 186) {
+                        chr = String.fromCharCode(58);
+                    }
+                    else if (keyCode == 187) {
+                        chr = String.fromCharCode(43);
+                    }
+                    else if (keyCode == 188) {
+                        chr = String.fromCharCode(60);
+                    }
+                    else if (keyCode == 189) {
+                        chr = String.fromCharCode(95);
+                    }
+                    else if (keyCode == 190) {
+                        chr = String.fromCharCode(62);
+                    }
+                    else if (keyCode == 191) {
+                        chr = String.fromCharCode(63);
+                    }
+                    else if (keyCode == 192) {
+                        chr = String.fromCharCode(126);
+                    }
+                }
+            }
+            else if ((keyCode >= 219) && (keyCode <= 222)) { // punctuation
+                if (isShifted === true) {
+                    if (keyCode == 219) {
+                        chr = String.fromCharCode(123);
+                    }
+                    else if (keyCode == 220) {
+                        chr = String.fromCharCode(124);
+                    }
+                    else if (keyCode == 221) {
+                        chr = String.fromCharCode(125);
+                    }
+                    else if (keyCode == 222) {
+                        chr = String.fromCharCode(34);
+                    }
+                }
+            }
+            else if (keyCode == 8) { // backspace
+                _StdIn.backspace();
+            }
         }
     }
     TSOS.DeviceDriverKeyboard = DeviceDriverKeyboard;
