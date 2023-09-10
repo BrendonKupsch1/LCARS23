@@ -79,8 +79,8 @@ var TSOS;
                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                 _FontHeightMargin;
             if (this.currentYPosition > _Canvas.height) {
+                _Kernel.krnTrace("End of canvas, scrolling");
                 this.scrollText();
-                this.currentYPosition = _Canvas.height - _DefaultFontSize;
             }
             else if (this.currentXPosition > _Canvas.width) {
                 _Kernel.krnTrace("");
@@ -88,11 +88,12 @@ var TSOS;
             }
         }
         scrollText() {
-            var canvas = _DrawingContext.canvas;
             // takes an image of the current canvas
-            var imageData = _DrawingContext.getImageData(0, 0, canvas.width, canvas.height);
-            // puts the image back on the canvas at a new position
-            _DrawingContext.putImageData(imageData, 0, -_DefaultFontSize - _FontHeightMargin);
+            var imageData = _DrawingContext.getImageData(0, this.currentFontSize + 10, _Canvas.width, _Canvas.height);
+            // resets screen and puts the image back on the canvas at a new position
+            this.clearScreen();
+            this.currentYPosition -= _DefaultFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) + _FontHeightMargin;
+            _DrawingContext.putImageData(imageData, 0, 0);
         }
         backspace() {
             // removes the last character from the buffer
