@@ -80,8 +80,31 @@ module TSOS {
             this.currentYPosition += _DefaultFontSize + 
                                      _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                                      _FontHeightMargin;
+            
+            if(this.currentYPosition > _Canvas.height) {
+                this.scrollText();
+                this.currentYPosition = _Canvas.height - _DefaultFontSize;
+            }
+            else if(this.currentXPosition > _Canvas.width) {
+                _Kernel.krnTrace("");
+                this.scrollText();
+            }
+        }   
+        public scrollText(): void {
+            var canvas = _DrawingContext.canvas;
+            // takes an image of the current canvas
+            var imageData = _DrawingContext.getImageData(0, 0, canvas.width, canvas.height); 
+            // puts the image back on the canvas at a new position
+            _DrawingContext.putImageData(imageData, 0, -_DefaultFontSize - _FontHeightMargin);
+        }
 
-            // TODO: Handle scrolling. (iProject 1)
+        public backspace(): void {
+            // removes the last character from the buffer
+            this.buffer = this.buffer.substring(0, this.buffer.length - 1);
+            // removes the last character from the canvas
+            _DrawingContext.clearRect(this.currentXPosition - 10, this.currentYPosition - 20, 10, 20);
+            // moves the current x position back one character
+            this.currentXPosition = this.currentXPosition - 10;
         }
     }
  }
