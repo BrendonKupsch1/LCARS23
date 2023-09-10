@@ -52,6 +52,9 @@ module TSOS {
             if (_GLaDOS) {
                 _GLaDOS.afterStartup();
             }
+
+            // Enable the date and time display
+            this.htmlDateTime();
         }
 
         public krnShutdown() {
@@ -171,6 +174,12 @@ module TSOS {
             Control.hostLog("OS ERROR - TRAP: " + msg);
             // TODO: Display error on console, perhaps in some sort of colored screen. (Maybe blue?)
             this.krnShutdown();
+        }
+
+        public htmlDateTime() {
+            var date = new Date();
+            var dateTime = date.toLocaleDateString() + " " + date.toLocaleTimeString();
+            document.getElementById("taCurrentDateTime").innerHTML = dateTime;
         }
     }
 }
