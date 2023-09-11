@@ -41,7 +41,21 @@ module TSOS {
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
                     this.buffer = "";
-                } else {
+                }
+                
+                // handles tab completion
+                else if(chr === String.fromCharCode(9)) {
+                    var commands = [];
+                    for(var i in _OsShell.commandList) {
+                        if (this.buffer == _OsShell.commandList[i].command.substring(0,this.buffer.length)) {
+                            commands.push(_OsShell.commandList[i].command);
+                        }
+                    }
+                    if(commands.length > 0) {
+                        
+
+                
+                else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
                     this.putText(chr);
@@ -107,5 +121,6 @@ module TSOS {
             // replace text with buffer
             this.putText(">" + this.buffer);
         }
+
     }
  }
