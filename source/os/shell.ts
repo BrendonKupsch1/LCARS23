@@ -1,5 +1,6 @@
 // add command to set time to stardate
 // add redalert command that flashes some part of the screen red
+// add maybe some more randomized commands to make labouseur laugh (maybe star trek food like gach, or rediculous ideas like tuvix)
 
 /* ------------
    Shell.ts
