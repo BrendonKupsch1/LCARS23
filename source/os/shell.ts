@@ -113,6 +113,12 @@ module TSOS {
                                     "- Displays the BSOD.");
             this.commandList[this.commandList.length] = sc;
 
+            // load
+            sc = new ShellCommand(this.shellLoad,
+                                    "load",
+                                    "- Validates the user code in the text area.");
+            this.commandList[this.commandList.length] = sc;
+
             // tabtest1 and tabtest2 to demonstrate tab cycling
             sc = new ShellCommand(this.shellTabTest1,
                                     "tabtest1",
@@ -386,6 +392,20 @@ module TSOS {
             _Kernel.krnTrapError("Warning, complete computer shutdown.");
         }
 
+        public shellLoad() {
+            var input = (<HTMLInputElement>document.getElementById("taProgramInput")).value;
+            var isValid = true;
+
+            for (var i = 0; i < input.length; i++) {
+                if (!(parseInt(input.charAt(i)) >= 0 && parseInt(input.charAt(i)) <= 9) && (input.charAt(i) != " ") || (input.charAt(i) >= "A") && (input.charAt(i) <= "F")) {
+                    isValid = false;
+                    break;
+                    }
+                else {
+                    isValid = true;
+                }
+            }
+        }
 
 
 
