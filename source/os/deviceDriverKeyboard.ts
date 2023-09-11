@@ -34,23 +34,36 @@ module TSOS {
             _Kernel.krnTrace("Key code:" + keyCode + " shifted:" + isShifted);
             var chr = "";
             // Check to see if we even want to deal with the key that was pressed.
-            if ((keyCode >= 65) && (keyCode <= 90)) { // letter
-                if (isShifted === true) { 
-                    chr = String.fromCharCode(keyCode); // Uppercase A-Z
-                } else {
-                    chr = String.fromCharCode(keyCode + 32); // Lowercase a-z
+            if (((keyCode >= 65) && (keyCode <= 90)) ||   // A..Z
+                ((keyCode >= 97) && (keyCode <= 123)))  {  // a..z 
+
+            // Determine the character we want to display
+                chr = String.fromCharCode(keyCode + 32);
+            // Check to see if we need to shift
+                if (isShifted) {
+                    chr = String.fromCharCode(keyCode);
                 }
-                // TODO: Check for caps-lock and handle as shifted if so.
+            // TODO: Check for caps-lock and handle as shifted if so.
                 _KernelInputQueue.enqueue(chr);
-            } else if (((keyCode >= 48) && (keyCode <= 57)) ||   // digits
-                        (keyCode == 32)                     ||   // space
-                        (keyCode == 13)) {                       // enter
+                
+            // if the key is a number and is shifted, then call the enableSymbol function
+            } else if ((keyCode >= 48) && (keyCode <= 57)) { 
+                _KernelInputQueue.enqueue(enableSymbol(keyCode, isShifted));
+            }
+            
+            // if the key is backspace
+            else if(keyCode==8){
+                _StdIn.backspace();
+            }
+
+            else if     ((keyCode == 32)   || // space
+                        (keyCode == 9)     || //tab
+                        (keyCode == 13)) {    // enter
                 chr = String.fromCharCode(keyCode);
                 _KernelInputQueue.enqueue(chr);
             }
-            else if (keyCode == 8) { // backspace
-                _StdIn.backspace();
-            }
+
+            // if the key is a punctuation character, then call the enablePuncChar function
             else if (puncChar(keyCode)) {
                 _KernelInputQueue.enqueue(enablePuncChar(keyCode, isShifted));
         }
@@ -80,8 +93,8 @@ module TSOS {
                 '220': '\\',
                 '221': ']',
                 '222': '\''
-            };
-            var puncTableShifted = {
+            },
+            puncTableShifted = {
                 '186': ':',
                 '187': '+',
                 '188': '<',
@@ -94,14 +107,13 @@ module TSOS {
                 '221': '}',
                 '222': '\"'
             };
-            chr = puncTable[keyCode];
 
+            chr = puncTable[keyCode];
             if (isShifted) {
                 chr = puncTableShifted[keyCode];
             }
-            else {
                 return chr;
-            }
+        }
 
             // functions to handle symbol characters
             function enableSymbol(keyCode, isShifted) {
@@ -126,5 +138,4 @@ module TSOS {
         }
 
     }
-}
 }
