@@ -13,7 +13,8 @@ module TSOS {
                     public currentFontSize = _DefaultFontSize,
                     public currentXPosition = 0,
                     public currentYPosition = _DefaultFontSize,
-                    public buffer = "") {
+                    public buffer = "",
+                    public tabCount = 0) {
         }
 
         public init(): void {
@@ -23,6 +24,10 @@ module TSOS {
 
         public clearScreen(): void {
             _DrawingContext.clearRect(0, 0, _Canvas.width, _Canvas.height);
+        }
+
+        public clearLine(): void {
+            _DrawingContext.clearRect(0, this.currentYPosition-14, _Canvas.width, _Canvas.height);
         }
 
         public resetXY(): void {
@@ -52,9 +57,13 @@ module TSOS {
                         }
                     }
                     if(commands.length > 0) {
-                        
+                        this.clearLine();
+                        this.buffer = commands[this.tabCount];
+                        this.putText(_OsShell.promptStr+commands[this.tabCount]);
+                        this.tabCount += 1;
+                    }
+                }
 
-                
                 else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...

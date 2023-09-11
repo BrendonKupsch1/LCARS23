@@ -12,12 +12,14 @@ var TSOS;
         currentXPosition;
         currentYPosition;
         buffer;
-        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "") {
+        tabCount;
+        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "", tabCount = 0) {
             this.currentFont = currentFont;
             this.currentFontSize = currentFontSize;
             this.currentXPosition = currentXPosition;
             this.currentYPosition = currentYPosition;
             this.buffer = buffer;
+            this.tabCount = tabCount;
         }
         init() {
             this.clearScreen();
@@ -25,6 +27,9 @@ var TSOS;
         }
         clearScreen() {
             _DrawingContext.clearRect(0, 0, _Canvas.width, _Canvas.height);
+        }
+        clearLine() {
+            _DrawingContext.clearRect(0, this.currentYPosition - 14, _Canvas.width, _Canvas.height);
         }
         resetXY() {
             this.currentXPosition = 0;
@@ -41,6 +46,21 @@ var TSOS;
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
                     this.buffer = "";
+                }
+                // handles tab completion
+                else if (chr === String.fromCharCode(9)) {
+                    var commands = [];
+                    for (var i in _OsShell.commandList) {
+                        if (this.buffer == _OsShell.commandList[i].command.substring(0, this.buffer.length)) {
+                            commands.push(_OsShell.commandList[i].command);
+                        }
+                    }
+                    if (commands.length > 0) {
+                        this.clearLine();
+                        this.buffer = commands[this.tabCount];
+                        this.putText(_OsShell.promptStr + commands[this.tabCount]);
+                        this.tabCount += 1;
+                    }
                 }
                 else {
                     // This is a "normal" character, so ...
