@@ -107,6 +107,12 @@ module TSOS {
                                     "<string> - Sets the status message.");
             this.commandList[this.commandList.length] = sc;
 
+            // BSOD 
+            sc = new ShellCommand(this.shellBSOD,
+                                    "bsod",
+                                    "- Displays the BSOD.");
+            this.commandList[this.commandList.length] = sc;
+
             // tabtest1 and tabtest2 to demonstrate tab cycling
             sc = new ShellCommand(this.shellTabTest1,
                                     "tabtest1",
@@ -375,6 +381,13 @@ module TSOS {
                 _StdOut.putText("Usage: status <string>  Please supply a string.");
             }
         }
+
+        public shellBSOD() {
+            _Kernel.krnTrapError("Warning, complete computer shutdown.");
+        }
+
+
+
 
         public shellTabTest1(args: string[]) {
             _StdOut.putText("Tab Test 1");
