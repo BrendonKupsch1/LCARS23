@@ -1,3 +1,5 @@
+// add command to set time to stardate
+
 /* ------------
    Shell.ts
 
