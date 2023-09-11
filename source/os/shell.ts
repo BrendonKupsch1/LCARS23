@@ -107,6 +107,17 @@ module TSOS {
                                     "<string> - Sets the status message.");
             this.commandList[this.commandList.length] = sc;
 
+            // tabtest1 and tabtest2 to demonstrate tab cycling
+            sc = new ShellCommand(this.shellTabTest1,
+                                    "tabtest1",
+                                    "- For demonstrating tab cycling.");
+            this.commandList[this.commandList.length] = sc;
+
+            sc = new ShellCommand(this.shellTabTest2,
+                                    "tabtest2",
+                                    "- For demonstrating tab cycling.");
+            this.commandList[this.commandList.length] = sc;
+
 
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -364,5 +375,14 @@ module TSOS {
                 _StdOut.putText("Usage: status <string>  Please supply a string.");
             }
         }
+
+        public shellTabTest1(args: string[]) {
+            _StdOut.putText("Tab Test 1");
+        }
+
+        public shellTabTest2(args: string[]) {
+            _StdOut.putText("Tab Test 2");
+        }
+
     }
 }

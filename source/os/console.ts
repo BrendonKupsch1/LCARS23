@@ -44,7 +44,8 @@ module TSOS {
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
-                    // ... and reset our buffer.
+                    // ... and reset our buffer and tab count.
+                    this.tabCount = 0;
                     this.buffer = "";
                 }
                 
@@ -57,6 +58,7 @@ module TSOS {
                         }
                     }
                     if(commands.length > 0) {
+                        this.currentXPosition = 0;
                         this.clearLine();
                         this.buffer = commands[this.tabCount];
                         this.putText(_OsShell.promptStr+commands[this.tabCount]);
@@ -70,6 +72,8 @@ module TSOS {
                     this.putText(chr);
                     // ... and add it to our buffer.
                     this.buffer += chr;
+                    // if the tab key is not pressed, reset the tab count
+                    this.tabCount = 0;
                 }
                 // TODO: Add a case for Ctrl-C that would allow the user to break the current program.
             }

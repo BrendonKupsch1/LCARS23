@@ -63,6 +63,11 @@ var TSOS;
             // status <string>
             sc = new TSOS.ShellCommand(this.shellStatus, "status", "<string> - Sets the status message.");
             this.commandList[this.commandList.length] = sc;
+            // tabtest1 and tabtest2 to demonstrate tab cycling
+            sc = new TSOS.ShellCommand(this.shellTabTest1, "tabtest1", "- For demonstrating tab cycling.");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellTabTest2, "tabtest2", "- For demonstrating tab cycling.");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -303,6 +308,12 @@ var TSOS;
             else {
                 _StdOut.putText("Usage: status <string>  Please supply a string.");
             }
+        }
+        shellTabTest1(args) {
+            _StdOut.putText("Tab Test 1");
+        }
+        shellTabTest2(args) {
+            _StdOut.putText("Tab Test 2");
         }
     }
     TSOS.Shell = Shell;
