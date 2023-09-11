@@ -1,4 +1,5 @@
 // add command to set time to stardate
+// add redalert command that flashes some part of the screen red
 
 /* ------------
    Shell.ts
