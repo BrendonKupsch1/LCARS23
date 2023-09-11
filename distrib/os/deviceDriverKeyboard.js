@@ -39,20 +39,22 @@ var TSOS;
                 }
                 // TODO: Check for caps-lock and handle as shifted if so.
                 _KernelInputQueue.enqueue(chr);
-                // if the key is a number and is shifted, then call the enableSymbol function
             }
+            else if ((keyCode == 32) || // space
+                (keyCode == 9) || //tab
+                (keyCode == 13) || // enter
+                (keyCode == 38) || // up arrow
+                (keyCode == 40)) { // down arrow
+                chr = String.fromCharCode(keyCode);
+                _KernelInputQueue.enqueue(chr);
+            }
+            // if the key is a number and is shifted, then call the enableSymbol function
             else if ((keyCode >= 48) && (keyCode <= 57)) {
                 _KernelInputQueue.enqueue(enableSymbol(keyCode, isShifted));
             }
             // if the key is backspace
             else if (keyCode == 8) {
                 _StdIn.backspace();
-            }
-            else if ((keyCode == 32) || // space
-                (keyCode == 9) || //tab
-                (keyCode == 13)) { // enter
-                chr = String.fromCharCode(keyCode);
-                _KernelInputQueue.enqueue(chr);
             }
             // if the key is a punctuation character, then call the enablePuncChar function
             else if (puncChar(keyCode)) {

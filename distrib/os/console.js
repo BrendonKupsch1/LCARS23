@@ -13,13 +13,17 @@ var TSOS;
         currentYPosition;
         buffer;
         tabCount;
-        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "", tabCount = 0) {
+        commandHistory;
+        commandCount;
+        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "", tabCount = 0, commandHistory = [], commandCount = 0) {
             this.currentFont = currentFont;
             this.currentFontSize = currentFontSize;
             this.currentXPosition = currentXPosition;
             this.currentYPosition = currentYPosition;
             this.buffer = buffer;
             this.tabCount = tabCount;
+            this.commandHistory = commandHistory;
+            this.commandCount = commandCount;
         }
         init() {
             this.clearScreen();
@@ -44,7 +48,9 @@ var TSOS;
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
                     _OsShell.handleInput(this.buffer);
-                    // ... and reset our buffer and tab count.
+                    // ... and reset our buffer, command count, and tab count.
+                    this.commandHistory.push(this.buffer);
+                    this.commandCount = this.commandHistory.length;
                     this.tabCount = 0;
                     this.buffer = "";
                 }
@@ -63,6 +69,22 @@ var TSOS;
                         this.putText(_OsShell.promptStr + commands[this.tabCount]);
                         this.tabCount += 1;
                     }
+                }
+                // handles up arrow
+                else if (chr === String.fromCharCode(38) && this.commandCount > 0) {
+                    this.currentXPosition = 0;
+                    this.commandCount -= 1;
+                    this.clearLine();
+                    this.buffer = this.commandHistory[this.commandCount];
+                    this.putText(_OsShell.promptStr + this.commandHistory[this.commandCount]);
+                }
+                // handles down arrow
+                else if (chr === String.fromCharCode(40) && this.commandCount < this.commandHistory.length - 1) {
+                    this.currentXPosition = 0;
+                    this.commandCount += 1;
+                    this.clearLine();
+                    this.buffer = this.commandHistory[this.commandCount];
+                    this.putText(_OsShell.promptStr + this.commandHistory[this.commandCount]);
                 }
                 else {
                     // This is a "normal" character, so ...
