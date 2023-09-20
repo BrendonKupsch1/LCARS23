@@ -1,0 +1,140 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CMPT 424
+%Fall 2023
+% Lab 3
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from: http://www.LaTeXTemplates.com
+% Original author: % Frits Wenneker (http://www.howtotex.com)
+% License: CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% Modified by Alan G. Labouseur  - alan@labouseur.com
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[letterpaper, 10pt,DIV=13]{scrartcl} 
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm,xfrac} % Math packages
+\usepackage{sectsty} % Allows customizing section commands
+\usepackage{graphicx}
+\usepackage[lined,linesnumbered,commentsnumbered]{algorithm2e}
+\usepackage{listings}
+\usepackage{parskip}
+\usepackage{lastpage}
+
+\allsectionsfont{\normalfont\scshape} % Make all section titles in default font and small caps.
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{page \thepage\ of \pageref{LastPage}} % Page numbering for right footer
+
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs.
+
+\binoppenalty=3000
+\relpenalty=3000
+
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+   \normalfont \normalsize 
+   \textsc{CMPT 424 - Fall 2023 - Dr. Labouseur} \\[10pt] % Header stuff.
+   \horrule{0.5pt} \\[0.25cm] 	% Top horizontal rule
+   \huge Lab Three  \\     	    % Assignment title
+   \horrule{0.5pt} \\[0.25cm] 	% Bottom horizontal rule
+}
+
+\author{Brendon Kupsch \\ \normalsize Brendon.Kupsch1@Marist.edu}
+
+\date{\normalsize\today} 	% Today's date.
+
+\begin{document}
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%   start PROBLEM ONE
+%----------------------------------------------------------------------------------------
+
+\section{Problem One}
+\subsection{1. Explain the difference between internal and external fragmentation.}
+Memory can split itself into blocks, and allocate the block of memory to a particular process. Internal Fragmentation occurs when the memory alloted to the process is larger than the memory being requested. This creates fragments of empty space in between allocated blocks in the memory. Memory can also be assigned to processes based on the processes size instead of allocating a specific amount. External fragmentation occurs when these processes change in size, or are replace by different processes. Fragments or gaps of unallocated memory end up in between and around these processes. 
+
+%----------------------------------------------------------------------------------------
+%   start PROBLEM TWO
+%----------------------------------------------------------------------------------------
+
+\section{Problem Two}
+\subsection{Given five(5) memory partitions of 100KB, 500KB, 200KB, 300KB, and 600KB (in that order), how would optimal, first-fit, best-fit, and worst-fit algorithms place processes of 212KB, 417KB, 112KB, and 426KB (in that order)?}
+Optimal: 
+\linebreak
+	212KB --> 300KB partition
+\linebreak
+	417KB --> 500KB partition
+\linebreak
+	112KB --> 200KB partition
+\linebreak
+	426KB --> 600KB partition
+\linebreak
+\pagebreak
+
+First-fit:
+\linebreak
+	212KB --> 500KB partition
+\linebreak
+	417KB --> 600KB partition
+\linebreak
+	112KB --> 200KB partition
+\linebreak
+	426KB --> No parition with enough space for this process.
+\linebreak
+
+Best-fit:
+\linebreak
+	212KB --> 300KB partition
+\linebreak
+	417KB --> 500KB partition
+\linebreak
+	112KB --> 200KB partition
+\linebreak
+	426KB --> 600KB partition
+\linebreak
+
+Worst-fit:
+\linebreak
+	212KB --> 600KB partition
+\linebreak
+	417KB --> 500KB partition
+\linebreak
+	112KB --> 300KB partition
+\linebreak
+	426KB --> No partition with enough space for this process.
+\linebreak
+	
+	
+
+\end{document}
