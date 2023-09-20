@@ -1,4 +1,4 @@
-///<reference path="../globals.ts" />
+//<reference path="../globals.ts" />
 
 module TSOS {
     export class Memory {
