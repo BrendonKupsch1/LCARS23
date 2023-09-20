@@ -1,19 +1,63 @@
 //<reference path="../globals.ts" />
 
+/*
+ Using GitHub Copilot to help write the code after Project 1
+ https://copilot.github.com/ 
+
+ Copilot notes:
+ Copilot will begin brackets but rarely predicts closing brackets, leading to some annoying formatting problems that need to be manuall fixed. 
+ Copilot is extremely helpful for commenting code. It does a very good job at reading your code and creating a comment very close to what I would write myself.
+ */
+ 
+
 module TSOS {
     export class Memory {
-        constructor(public mem = [768],
-                    public memBase: number = 0,
-                    public memLimit: number = 768,) {
+
+        public memory;
+
+        // 768 bytes of memory (0 - 767)
+        constructor (length: number) {
+            this.memory = new Array(length);
         }
 
-        public init(): void {
-            this.mem[768];
-            this.memBase=0;
-            this.memLimit=768;
-            for(var x=0; x<768; x++){
-                this.mem[x]=parseInt("00");
+        public init() {
+            for (var i = 0; i < this.memory.length; i++) {
+                this.memory[i] = "00";
             }
         }
+
+        // Read and write to memory
+        public read(address: number) {
+            return this.memory[address];
+        }
+
+        public write(address: number, data: string) {
+            if (data.length == 1) {
+                data = "0" + data;
+            }
+            this.memory[address] = data;
+        }
+
+
+        public getSize() {
+            return this.memory.length;
+        }
+
+        // used for clear shell command
+        public clearMemory() {
+            for (var i = 0; i < this.memory.length; i++) {
+                this.memory[i] = "00";
+            }
+        }
+
+        // used when a process is terminated
+        public clearRange(base: number, limit: number): void {
+            for (var i = 0; i < (limit - base); i++) {
+                this.memory[i + base] = "00";
+            }
+        }
+
+
+
     }
 }
