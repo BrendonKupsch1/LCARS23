@@ -119,17 +119,6 @@ module TSOS {
                                     "- Validates the user code in the text area.");
             this.commandList[this.commandList.length] = sc;
 
-            // tabtest1 and tabtest2 to demonstrate tab cycling
-            sc = new ShellCommand(this.shellTabTest1,
-                                    "tabtest1",
-                                    "- For demonstrating tab cycling.");
-            this.commandList[this.commandList.length] = sc;
-
-            sc = new ShellCommand(this.shellTabTest2,
-                                    "tabtest2",
-                                    "- For demonstrating tab cycling.");
-            this.commandList[this.commandList.length] = sc;
-
 
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -310,6 +299,9 @@ module TSOS {
                     case "prompt":
                         _StdOut.putText("Prompt <string> sets the prompt.");
                         break;
+                        case "load":
+                        _StdOut.putText("Load validates the user code in the text area.");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -392,6 +384,7 @@ module TSOS {
             _Kernel.krnTrapError("Warning, complete computer shutdown.");
         }
 
+
         public shellLoad() {
             var input = (<HTMLInputElement>document.getElementById("taProgramInput")).value;
             var isValid = true;
@@ -405,17 +398,10 @@ module TSOS {
                     isValid = true;
                 }
             }
+
+            if (!isValid) {
+                _StdOut.putText("Invalid program. Please enter a valid program.");
+            }
         }
-
-
-
-        public shellTabTest1(args: string[]) {
-            _StdOut.putText("Tab Test 1");
-        }
-
-        public shellTabTest2(args: string[]) {
-            _StdOut.putText("Tab Test 2");
-        }
-
     }
 }
