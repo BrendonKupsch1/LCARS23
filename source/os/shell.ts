@@ -120,7 +120,7 @@ module TSOS {
             this.commandList[this.commandList.length] = sc;
 
             // tab completion testing
-            sc = new ShellCommand(this.shellTabTest1,
+            /* sc = new ShellCommand(this.shellTabTest1,
                                     "tabtest1",
                                     "- Tests tab completion.");
             this.commandList[this.commandList.length] = sc;
@@ -128,7 +128,7 @@ module TSOS {
             sc = new ShellCommand(this.shellTabTest2,
                                     "tabtest2",
                                     "- Tests tab completion.");
-            this.commandList[this.commandList.length] = sc;
+            this.commandList[this.commandList.length] = sc; */
 
 
             // ps  - list the running processes and their IDs
@@ -423,6 +423,7 @@ module TSOS {
             }
         }
 
+        /*
         public shellTabTest1(args: string[]) {
             _StdOut.putText("tabtest1");
         }
@@ -430,5 +431,6 @@ module TSOS {
         public shellTabTest2(args: string[]) {
             _StdOut.putText("tabtest2");
         }
+        */
     }
 }
