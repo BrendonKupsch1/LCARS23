@@ -19,13 +19,15 @@ var TSOS;
         Yreg;
         Zflag;
         isExecuting;
-        constructor(PC = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = 0, isExecuting = false) {
+        thisPCB;
+        constructor(PC = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = 0, isExecuting = false, thisPCB = null) {
             this.PC = PC;
             this.Acc = Acc;
             this.Xreg = Xreg;
             this.Yreg = Yreg;
             this.Zflag = Zflag;
             this.isExecuting = isExecuting;
+            this.thisPCB = thisPCB;
         }
         init() {
             this.PC = 0;
@@ -34,6 +36,7 @@ var TSOS;
             this.Yreg = 0;
             this.Zflag = 0;
             this.isExecuting = false;
+            this.thisPCB = null;
         }
         cycle() {
             _Kernel.krnTrace('CPU cycle');

@@ -69,11 +69,6 @@ var TSOS;
             // load
             sc = new TSOS.ShellCommand(this.shellLoad, "load", "- Validates the user code in the text area.");
             this.commandList[this.commandList.length] = sc;
-            // tabtest1 and tabtest2 to demonstrate tab cycling
-            sc = new TSOS.ShellCommand(this.shellTabTest1, "tabtest1", "- For demonstrating tab cycling.");
-            this.commandList[this.commandList.length] = sc;
-            sc = new TSOS.ShellCommand(this.shellTabTest2, "tabtest2", "- For demonstrating tab cycling.");
-            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -240,6 +235,9 @@ var TSOS;
                     case "prompt":
                         _StdOut.putText("Prompt <string> sets the prompt.");
                         break;
+                    case "load":
+                        _StdOut.putText("Load validates the user code in the text area.");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -318,24 +316,28 @@ var TSOS;
         shellBSOD() {
             _Kernel.krnTrapError("Warning, complete computer shutdown.");
         }
-        shellLoad() {
-            var input = document.getElementById("taProgramInput").value;
+        shellLoad(args) {
+            var hexDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', ' '];
             var isValid = true;
-            for (var i = 0; i < input.length; i++) {
-                if (!(parseInt(input.charAt(i)) >= 0 && parseInt(input.charAt(i)) <= 9) && (input.charAt(i) != " ") || (input.charAt(i) >= "A") && (input.charAt(i) <= "F")) {
+            _UserProgramInput = document.getElementById("taProgramInput").value;
+            if (_UserProgramInput.length == 0) {
+                isValid = false;
+            }
+            for (var i = 0; i < _UserProgramInput.length; i++) {
+                var char = _UserProgramInput[i];
+                if (hexDigits.indexOf(char) === -1) {
                     isValid = false;
                     break;
                 }
-                else {
-                    isValid = true;
-                }
             }
-        }
-        shellTabTest1(args) {
-            _StdOut.putText("Tab Test 1");
-        }
-        shellTabTest2(args) {
-            _StdOut.putText("Tab Test 2");
+            if (!isValid) {
+                _StdOut.putText("Invalid program. Please enter a valid program.");
+            }
+            else {
+                var arrayProgram = _UserProgramInput.split(" ");
+                var processID = _MemoryManager.load(arrayProgram, 1);
+                _StdOut.putText("Process ID: " + processID);
+            }
         }
     }
     TSOS.Shell = Shell;
