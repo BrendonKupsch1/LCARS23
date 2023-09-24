@@ -21,24 +21,70 @@ module TSOS {
                     public Yreg: number = 0,
                     public Zflag: number = 0,
                     public isExecuting: boolean = false,
-                    public thisPCB:any = null) {
+                    public instruction: string = "N/A",
+                    public currentPCB: TSOS.ProcessControlBlock = null) {
 
         }
 
         public init(): void {
-            this.PC = 0;
-            this.Acc = 0;
-            this.Xreg = 0;
-            this.Yreg = 0;
-            this.Zflag = 0;
-            this.isExecuting = false;
-            this.thisPCB = null;
         }
 
         public cycle(): void {
-            _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
+
+            if (this.currentPCB !== null && this.isExecuting) {
+                _Kernel.krnTrace('CPU cycle');
+                this.instruction = _MemoryAccessor.read(this.currentPCB, this.PC);
+
+                switch(this.instruction) {
+                    case 'A9': // load the accumulator with a constant
+                        this.loadAccWithConstant();
+                        break;
+                    case 'AD': // load the accumulator from memory
+                        this.loadAccFromMemory();
+                        break;
+                    case '8D': // store the accumulator in memory
+                        this.storeAccInMemory();
+                        break;
+                    case '6D': // add with carry
+                        this.addWithCarry();
+                        break;
+                    case 'A2': // load the X register with a constant
+                        this.loadXRegWithConstant();
+                        break;
+                    case 'AE': // load the X register from memory
+                        this.loadXRegFromMemory();
+                        break;
+                    case 'A0': // load the Y register with a constant
+                        this.loadYRegWithConstant();
+                        break;
+                    case 'AC': // load the Y register from memory
+                        this.loadYRegFromMemory();
+                        break;
+                    case 'EA': // no operation
+                        this.PC++;
+                        break;
+                    case '00': // break (which is really a system call)
+                        this.breakSystemCall();
+                        break;
+                    case 'EC': // compare a byte in memory to the X reg
+                        this.compareMemToXReg();
+                        break;
+                    case 'D0': // branch N bytes if Z flag = 0
+                        this.branch();
+                        break;
+                    case 'EE': // increment the value of a byte
+                        this.incrementValue();
+                        break;
+                    case 'FF': // system call
+                        this.systemCall();
+                        break;
+                    default:
+                        alert("Invalid opcode instruction " + this.instruction + " from " + this.currentPCB.processID);
+                        this.isExecuting = false;
+                        break;
+            }
         }
 
 
