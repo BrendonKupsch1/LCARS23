@@ -58,6 +58,5 @@ module TSOS {
                 this.memory[i + base] = "00";
             }
         }
-
     }
 }
