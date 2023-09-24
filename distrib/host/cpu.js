@@ -89,6 +89,117 @@ var TSOS;
                 }
             }
         }
+        loadAccWithConstant() {
+            this.PC++;
+            this.Acc = parseInt(_MemoryAccessor.read(this.currentPCB, this.PC), 16);
+            this.PC++;
+        }
+        loadAccFromMemory() {
+            this.PC++;
+            var addr = parseInt(_MemoryAccessor.read(this.currentPCB, this.PC), 16);
+            this.PC++;
+            this.Acc = parseInt(_MemoryAccessor.read(this.currentPCB, addr), 16);
+            this.PC++;
+        }
+        storeAccInMemory() {
+            this.PC++;
+            var addr = parseInt(_MemoryAccessor.read(this.currentPCB, this.PC), 16);
+            this.PC++;
+            _MemoryAccessor.write(this.currentPCB, addr, this.Acc.toString(16));
+            this.PC++;
+        }
+        addWithCarry() {
+            this.PC++;
+            var addr = parseInt(_MemoryAccessor.read(this.currentPCB, this.PC), 16);
+            this.PC++;
+            this.Acc += parseInt(_MemoryAccessor.read(this.currentPCB, addr), 16);
+            this.PC++;
+        }
+        loadXRegWithConstant() {
+            this.PC++;
+            this.Xreg = parseInt(_MemoryAccessor.read(this.currentPCB, this.PC), 16);
+            this.PC++;
+        }
+        loadXRegFromMemory() {
+            this.PC++;
+            var addr = parseInt(_MemoryAccessor.read(this.currentPCB, this.PC), 16);
+            this.PC++;
+            this.Xreg = parseInt(_MemoryAccessor.read(this.currentPCB, addr), 16);
+            this.PC++;
+        }
+        loadYRegWithConstant() {
+            this.PC++;
+            this.Yreg = parseInt(_MemoryAccessor.read(this.currentPCB, this.PC), 16);
+            this.PC++;
+        }
+        loadYRegFromMemory() {
+            this.PC++;
+            var addr = parseInt(_MemoryAccessor.read(this.currentPCB, this.PC), 16);
+            this.PC++;
+            this.Yreg = parseInt(_MemoryAccessor.read(this.currentPCB, addr), 16);
+            this.PC++;
+        }
+        breakSystemCall() {
+            this.currentPCB.processState = "Terminated";
+            _MemoryManager.deallocateMemory(this.currentPCB);
+            this.currentPCB = null;
+            this.PC = 0;
+            this.Acc = 0;
+            this.Xreg = 0;
+            this.Yreg = 0;
+            this.Zflag = 0;
+            if (!(_MemoryManager.readyQueue.getSize() > 0)) {
+                this.isExecuting = false;
+            }
+        }
+        compareMemToXReg() {
+            this.PC++;
+            var addr = parseInt(_MemoryAccessor.read(this.currentPCB, this.PC), 16);
+            this.PC++;
+            // if the values are equal, set the Z flag to 1, if the values are not equal, set the Z flag to 0
+            this.Zflag = (this.Xreg === parseInt(_MemoryAccessor.read(this.currentPCB, addr), 16)) ? 1 : 0;
+            this.PC++;
+        }
+        branch() {
+            this.PC++;
+            if (this.Zflag === 0) {
+                var branch = _MemoryAccessor.read(this.currentPCB, this.PC);
+                this.PC++;
+                var branchDistance = parseInt(branch, 16);
+                this.PC += branchDistance;
+            }
+            else {
+                this.PC++;
+            }
+        }
+        incrementValue() {
+            this.PC++;
+            var addr = parseInt(_MemoryAccessor.read(this.currentPCB, this.PC), 16);
+            this.PC++;
+            var value = parseInt(_MemoryAccessor.read(this.currentPCB, addr), 16);
+            value++;
+            _MemoryAccessor.write(this.currentPCB, addr, value.toString(16));
+            this.PC++;
+        }
+        systemCall() {
+            if (this.Xreg === 1) {
+                _StdOut.putText(this.Yreg.toString());
+                this.PC++;
+            }
+            else if (this.Xreg === 2) {
+                var output = ' ';
+                var addr = this.Yreg;
+                var data = _MemoryAccessor.read(this.currentPCB, addr);
+                while (data !== '00') {
+                    var letter = String.fromCharCode(parseInt(data, 16));
+                    output += letter;
+                    addr++;
+                    var data = _MemoryAccessor.read(this.currentPCB, addr);
+                }
+                _StdOut.putText(output + ' ');
+                this.PC++;
+            }
+        }
     }
     TSOS.Cpu = Cpu;
 })(TSOS || (TSOS = {}));

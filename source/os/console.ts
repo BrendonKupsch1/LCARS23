@@ -14,9 +14,9 @@ module TSOS {
                     public currentXPosition = 0,
                     public currentYPosition = _DefaultFontSize,
                     public buffer = "",
-                    public tabCount = 0,
                     public commandHistory = [],
-                    public commandCount = 0,) {
+                    public commandCount = 0,
+                    public commandPointer = 0) {
         }
 
         public init(): void {
@@ -29,7 +29,23 @@ module TSOS {
         }
 
         public clearLine(): void {
-            _DrawingContext.clearRect(0, this.currentYPosition-14, _Canvas.width, _Canvas.height);
+            if (this.buffer.length > 0) {
+
+                // calculates the offset of the text
+                var offesetX = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer);
+                var xBeginningPos = this.currentXPosition - offesetX;
+
+                var offsetY = _DefaultFontSize;
+                var yBeginningPos = this.currentYPosition - offsetY;
+
+                // clears area from begning of line to current position
+                _DrawingContext.clearRect(xBeginningPos, yBeginningPos, offesetX, offsetY + 5);
+
+                this.currentXPosition = xBeginningPos;
+
+                //removes the entire buffer
+                this.buffer = "";
+            }
         }
 
         public resetXY(): void {
@@ -48,25 +64,25 @@ module TSOS {
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer, command count, and tab count.
                     this.commandHistory.push(this.buffer);
+                    this.commandPointer = this.commandHistory.length - 1;
                     this.commandCount = this.commandHistory.length;
-                    this.tabCount = 0;
                     this.buffer = "";
                 }
                 
                 // handles tab completion
+                // my brother helped me fix my tab completion error by modifying this loop and the clearLine function
                 else if(chr === String.fromCharCode(9)) {
-                    var commands = [];
-                    for(var i in _OsShell.commandList) {
-                        if (this.buffer == _OsShell.commandList[i].command.substring(0,this.buffer.length)) {
-                            commands.push(_OsShell.commandList[i].command);
+                    if (this.buffer.length > 0) {
+                        var length = this.buffer.length;
+                        var input = this.buffer;
+                        for (var i = 0; i < _OsShell.commandList.length; i++) {
+                            if (_OsShell.commandList[i].command.substring(0,length) === input) {
+                                this.clearLine();
+                                this.putText(_OsShell.commandList[i].command);
+                                this.buffer = _OsShell.commandList[i].command;
+                                break;
+                            }
                         }
-                    }
-                    if(commands.length > 0) {
-                        this.currentXPosition = 0;
-                        this.clearLine();
-                        this.buffer = commands[this.tabCount];
-                        this.putText(_OsShell.promptStr+commands[this.tabCount]);
-                        this.tabCount += 1;
                     }
                 }
 
@@ -94,8 +110,6 @@ module TSOS {
                     this.putText(chr);
                     // ... and add it to our buffer.
                     this.buffer += chr;
-                    // if the tab key is not pressed, reset the tab count
-                    this.tabCount = 0;
                 }
                 // TODO: Add a case for Ctrl-C that would allow the user to break the current program.
             }

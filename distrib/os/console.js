@@ -12,18 +12,18 @@ var TSOS;
         currentXPosition;
         currentYPosition;
         buffer;
-        tabCount;
         commandHistory;
         commandCount;
-        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "", tabCount = 0, commandHistory = [], commandCount = 0) {
+        commandPointer;
+        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "", commandHistory = [], commandCount = 0, commandPointer = 0) {
             this.currentFont = currentFont;
             this.currentFontSize = currentFontSize;
             this.currentXPosition = currentXPosition;
             this.currentYPosition = currentYPosition;
             this.buffer = buffer;
-            this.tabCount = tabCount;
             this.commandHistory = commandHistory;
             this.commandCount = commandCount;
+            this.commandPointer = commandPointer;
         }
         init() {
             this.clearScreen();
@@ -33,7 +33,18 @@ var TSOS;
             _DrawingContext.clearRect(0, 0, _Canvas.width, _Canvas.height);
         }
         clearLine() {
-            _DrawingContext.clearRect(0, this.currentYPosition - 14, _Canvas.width, _Canvas.height);
+            if (this.buffer.length > 0) {
+                // calculates the offset of the text
+                var offesetX = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer);
+                var xBeginningPos = this.currentXPosition - offesetX;
+                var offsetY = _DefaultFontSize;
+                var yBeginningPos = this.currentYPosition - offsetY;
+                // clears area from begning of line to current position
+                _DrawingContext.clearRect(xBeginningPos, yBeginningPos, offesetX, offsetY + 5);
+                this.currentXPosition = xBeginningPos;
+                //removes the entire buffer
+                this.buffer = "";
+            }
         }
         resetXY() {
             this.currentXPosition = 0;
@@ -50,24 +61,24 @@ var TSOS;
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer, command count, and tab count.
                     this.commandHistory.push(this.buffer);
+                    this.commandPointer = this.commandHistory.length - 1;
                     this.commandCount = this.commandHistory.length;
-                    this.tabCount = 0;
                     this.buffer = "";
                 }
                 // handles tab completion
+                // my brother helped me fix my tab completion error by modifying this loop and the clearLine function
                 else if (chr === String.fromCharCode(9)) {
-                    var commands = [];
-                    for (var i in _OsShell.commandList) {
-                        if (this.buffer == _OsShell.commandList[i].command.substring(0, this.buffer.length)) {
-                            commands.push(_OsShell.commandList[i].command);
+                    if (this.buffer.length > 0) {
+                        var length = this.buffer.length;
+                        var input = this.buffer;
+                        for (var i = 0; i < _OsShell.commandList.length; i++) {
+                            if (_OsShell.commandList[i].command.substring(0, length) === input) {
+                                this.clearLine();
+                                this.putText(_OsShell.commandList[i].command);
+                                this.buffer = _OsShell.commandList[i].command;
+                                break;
+                            }
                         }
-                    }
-                    if (commands.length > 0) {
-                        this.currentXPosition = 0;
-                        this.clearLine();
-                        this.buffer = commands[this.tabCount];
-                        this.putText(_OsShell.promptStr + commands[this.tabCount]);
-                        this.tabCount += 1;
                     }
                 }
                 // handles up arrow
@@ -92,8 +103,6 @@ var TSOS;
                     this.putText(chr);
                     // ... and add it to our buffer.
                     this.buffer += chr;
-                    // if the tab key is not pressed, reset the tab count
-                    this.tabCount = 0;
                 }
                 // TODO: Add a case for Ctrl-C that would allow the user to break the current program.
             }

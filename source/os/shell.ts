@@ -119,6 +119,17 @@ module TSOS {
                                     "- Validates the user code in the text area.");
             this.commandList[this.commandList.length] = sc;
 
+            // tab completion testing
+            sc = new ShellCommand(this.shellTabTest1,
+                                    "tabtest1",
+                                    "- Tests tab completion.");
+            this.commandList[this.commandList.length] = sc;
+
+            sc = new ShellCommand(this.shellTabTest2,
+                                    "tabtest2",
+                                    "- Tests tab completion.");
+            this.commandList[this.commandList.length] = sc;
+
 
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -410,6 +421,14 @@ module TSOS {
                 var processID = _MemoryManager.load(arrayProgram, 1);
                 _StdOut.putText("Process ID: " + processID);
             }
+        }
+
+        public shellTabTest1(args: string[]) {
+            _StdOut.putText("tabtest1");
+        }
+
+        public shellTabTest2(args: string[]) {
+            _StdOut.putText("tabtest2");
         }
     }
 }
