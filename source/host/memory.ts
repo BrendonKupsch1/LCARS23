@@ -10,6 +10,7 @@
  After using GitHub Copilot for some time, it is worth the price of admission for commenting alone. I save so much time not having to write comments myself. (Coding is easier than commenting)
 
  Copilot does not write the code for you line for line, but is very good at finishing half a line I've already written.
+ Copilot is also very good at basic functions like the operational codes. I think this is becasue it has a large database of OS students who wrote very similar code.
  
 
  My brother Evan Kupsch helped me with memeory and pcb implementation, and with difficult errors that I was having trouble with.

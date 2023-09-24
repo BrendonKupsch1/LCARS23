@@ -64,5 +64,15 @@ module TSOS {
 
         }
 
+        public deallocateMemory(pcb: TSOS.ProcessControlBlock): void {
+            for (var i = 0; i < this.allocated.length; i++) {
+                if (this.allocated[i] === pcb.processID) {
+                    this.allocated[i] = -1;
+                    _Memory.clearRange(pcb.baseRegister, pcb.limitRegister);
+                    break;
+                }
+            }
+        }
+
     }
 }
