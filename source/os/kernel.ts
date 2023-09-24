@@ -31,7 +31,6 @@ module TSOS {
 
             // Initialize the memory
             _MemoryManager = new MemoryManager();
-            _Memory = new Memory(_MemorySize);
 
             // Load the Keyboard Device Driver
             this.krnTrace("Loading the keyboard device driver.");

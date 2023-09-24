@@ -9,18 +9,18 @@
  Copilot is extremely helpful for commenting code. It does a very good job at reading your code and creating a comment very close to what I would write myself.
  Copilot does not write the code for you line for line, but is very good at finishing half a line I've already written.
 
- My brother Evan Kupsch also helped me with the memory implemenation. He was equally as helpful as Copilot but hes not $10 a month.
+
  */
  
 
 module TSOS {
-    
+
     export class Memory {
 
         public memory;
 
         // 768 bytes of memory (0 - 767)
-        constructor (length: number) {
+        constructor(length: number) {
             this.memory = new Array(length);
         }
 
