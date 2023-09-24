@@ -31,9 +31,11 @@ var _OSclock: number = 0;  // Page 23.
 
 var _Mode: number = 0;     // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
 
+// hardware
 var _Memory: TSOS.Memory; // = new TSOS.Memory();
 var _MemoryAccessor: TSOS.MemoryAccessor; // = new TSOS.MemoryAccessor();
 var _MemoryManager: any	=	null; 
+var _MemorySize: number = 768;
 
 
 var _Canvas: HTMLCanvasElement;          // Initialized in Control.hostInit().
@@ -57,6 +59,8 @@ var _StdOut: TSOS.Console = null;
 // UI
 var _Console: TSOS.Console;
 var _OsShell: TSOS.Shell;
+
+var _UserProgramInput: string;
 
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode: boolean = false;

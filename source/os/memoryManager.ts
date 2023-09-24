@@ -15,7 +15,6 @@ module TSOS {
         public load(program: Array<string>, priority: number): number {
             var pcb = new ProcessControlBlock(priority);
             this.allocateMemory(pcb, program);
-            TSOS.Control.updatePcbDisplay(true, pcb);
             return pcb.processID;
         }
 

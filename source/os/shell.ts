@@ -385,22 +385,30 @@ module TSOS {
         }
 
 
-        public shellLoad() {
-            var input = (<HTMLInputElement>document.getElementById("taProgramInput")).value;
+        public shellLoad(args: string[]) {
+            var hexDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A','B', 'C', 'D', 'E', 'F', ' '];
             var isValid = true;
 
-            for (var i = 0; i < input.length; i++) {
-                if (!(parseInt(input.charAt(i)) >= 0 && parseInt(input.charAt(i)) <= 9) && (input.charAt(i) != " ") || (input.charAt(i) >= "A") && (input.charAt(i) <= "F")) {
+            _UserProgramInput = (<HTMLInputElement>document.getElementById("taProgramInput")).value;
+
+            if (_UserProgramInput.length == 0) {
+                isValid = false;
+            }
+            for (var i = 0; i < _UserProgramInput.length; i++) {
+                var char = _UserProgramInput[i];
+                if (hexDigits.indexOf(char) === -1) {
                     isValid = false;
                     break;
-                    }
-                else {
-                    isValid = true;
                 }
             }
 
             if (!isValid) {
                 _StdOut.putText("Invalid program. Please enter a valid program.");
+            }
+            else {
+                var arrayProgram = _UserProgramInput.split(" ");
+                var processID = _MemoryManager.load(arrayProgram, 1);
+                _StdOut.putText("Process ID: " + processID);
             }
         }
     }
