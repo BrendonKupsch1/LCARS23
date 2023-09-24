@@ -31,9 +31,11 @@ var _OSclock: number = 0;  // Page 23.
 
 var _Mode: number = 0;     // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
 
+// hardware
 var _Memory: TSOS.Memory; // = new TSOS.Memory();
 var _MemoryAccessor: TSOS.MemoryAccessor; // = new TSOS.MemoryAccessor();
 var _MemoryManager: any	=	null; 
+var _MemorySize: number = 768;
 
 
 var _Canvas: HTMLCanvasElement;          // Initialized in Control.hostInit().
