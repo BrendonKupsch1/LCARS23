@@ -20,14 +20,8 @@ const KEYBOARD_IRQ = 1;
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
 //
-var _CPU; // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 var _OSclock = 0; // Page 23.
 var _Mode = 0; // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
-// hardware
-var _Memory; // = new TSOS.Memory();
-var _MemoryAccessor; // = new TSOS.MemoryAccessor();
-var _MemoryManager = null;
-var _MemorySize = 768;
 var _Canvas; // Initialized in Control.hostInit().
 var _DrawingContext; // = _Canvas.getContext("2d");  // Assigned here for type safety, but re-initialized in Control.hostInit() for OCD and logic.
 var _DefaultFontFamily = "sans"; // Ignored, I think. The was just a place-holder in 2008, but the HTML canvas may have use for it.
@@ -46,6 +40,12 @@ var _StdOut = null;
 var _Console;
 var _OsShell;
 var _UserProgramInput;
+// hardware
+var _CPU;
+var _Memory; // = new TSOS.Memory();
+var _MemorySize = 768;
+var _MemoryAccessor; // = new TSOS.MemoryAccessor();
+var _MemoryManager = null;
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode = false;
 // Global Device Driver Objects - page 12

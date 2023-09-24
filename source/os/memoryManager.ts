@@ -5,11 +5,25 @@ Memory Manager is for managing memory
 
 module TSOS {
 
+    const numPrograms = 3;
+
     export class MemoryManager {
+
+
+        public residentList: TSOS.ProcessControlBlock[];
+
+        public readyQueue: TSOS.Queue;
 
         private allocated;
 
         constructor() {
+            this.residentList = [];
+            this.readyQueue = new Queue();
+            this.allocated = new Array(numPrograms);
+            for (var i = 0; i < this.allocated.length; i++) {
+                this.allocated[i] = -1;
+            }
+
         }
 
         public load(program: Array<string>, priority: number): number {

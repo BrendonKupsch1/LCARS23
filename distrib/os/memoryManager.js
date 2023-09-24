@@ -4,12 +4,21 @@ Memory Manager is for managing memory
 */
 var TSOS;
 (function (TSOS) {
+    const numPrograms = 3;
     class MemoryManager {
+        residentList;
+        readyQueue;
         allocated;
         constructor() {
+            this.residentList = [];
+            this.readyQueue = new TSOS.Queue();
+            this.allocated = new Array(numPrograms);
+            for (var i = 0; i < this.allocated.length; i++) {
+                this.allocated[i] = -1;
+            }
         }
         load(program, priority) {
-            var pcb = new ProcessControlBlock(priority);
+            var pcb = new TSOS.ProcessControlBlock(priority);
             this.allocateMemory(pcb, program);
             return pcb.processID;
         }

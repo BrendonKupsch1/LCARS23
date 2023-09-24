@@ -29,19 +29,16 @@ module TSOS {
             _StdIn  = _Console;
             _StdOut = _Console;
 
+            // Initialize the memory
+            _MemoryManager = new MemoryManager();
+            _Memory = new Memory(_MemorySize);
+
             // Load the Keyboard Device Driver
             this.krnTrace("Loading the keyboard device driver.");
             _krnKeyboardDriver = new DeviceDriverKeyboard();     // Construct it.
             _krnKeyboardDriver.driverEntry();                    // Call the driverEntry() initialization routine.
             this.krnTrace(_krnKeyboardDriver.status);
 
-
-            // Initialize the memory
-            _MemoryManager = new MemoryManager();
-
-            //
-            // ... more?
-            //
 
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");

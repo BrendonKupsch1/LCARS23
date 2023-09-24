@@ -25,17 +25,10 @@ const KEYBOARD_IRQ: number = 1;
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
 //
-var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 
 var _OSclock: number = 0;  // Page 23.
 
 var _Mode: number = 0;     // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
-
-// hardware
-var _Memory: TSOS.Memory; // = new TSOS.Memory();
-var _MemoryAccessor: TSOS.MemoryAccessor; // = new TSOS.MemoryAccessor();
-var _MemoryManager: any	=	null; 
-var _MemorySize: number = 768;
 
 
 var _Canvas: HTMLCanvasElement;          // Initialized in Control.hostInit().
@@ -61,6 +54,13 @@ var _Console: TSOS.Console;
 var _OsShell: TSOS.Shell;
 
 var _UserProgramInput: string;
+
+// hardware
+var _CPU: TSOS.Cpu;
+var _Memory: TSOS.Memory; // = new TSOS.Memory();
+var _MemorySize: number = 768;
+var _MemoryAccessor: TSOS.MemoryAccessor; // = new TSOS.MemoryAccessor();
+var _MemoryManager: any	=	null; 
 
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode: boolean = false;
