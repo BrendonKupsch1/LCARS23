@@ -414,6 +414,7 @@ module TSOS {
             if (_UserProgramInput.length == 0) {
                 isValid = false;
             }
+
             for (var i = 0; i < _UserProgramInput.length; i++) {
                 var char = _UserProgramInput[i];
                 if (hexDigits.indexOf(char) === -1) {
@@ -425,6 +426,7 @@ module TSOS {
             if (!isValid) {
                 _StdOut.putText("Invalid program. Please enter a valid program.");
             }
+            
             else {
                 var arrayProgram = _UserProgramInput.split(" ");
                 var processID = _MemoryManager.load(arrayProgram, 1);
