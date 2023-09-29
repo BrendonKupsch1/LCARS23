@@ -9,7 +9,7 @@ module TSOS {
         public YRegister : number;
         public ZFlag : number;
         public processID : number;
-        public processState : string; // new, ready, waiting, running, terminated
+        public processState : string; // new, ready, resident, executing, terminated
         public baseRegister : number;
         public limitRegister : number;
         public isInMemory : boolean;
