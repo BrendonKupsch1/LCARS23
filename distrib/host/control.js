@@ -34,6 +34,10 @@ var TSOS;
             // Set focus on the start button.
             // Use the TypeScript cast to HTMLInputElement
             document.getElementById("btnStartOS").focus();
+            // Initialize all displays
+            this.initMemoryDisplay();
+            this.initCpuDisplay();
+            this.initPcbDisplay();
             // Check for our testing and enrichment core, which
             // may be referenced here (from index.html) as function Glados().
             if (typeof Glados === "function") {
@@ -80,7 +84,7 @@ var TSOS;
                 bodyRow.insertCell(i).textContent = body[i];
             }
         }
-        // needs testing the most
+        // needs testing
         static initPcbDisplay() {
             var table = document.getElementById("pcbTable");
             var headers = ['PID', 'PC', 'IR', 'Acc', 'X', 'Y', 'Z', 'State'];
@@ -91,6 +95,67 @@ var TSOS;
                 headerRow.insertCell(i).textContent = headers[i];
                 bodyRow.insertCell(i).textContent = body[i];
             }
+        }
+        static updateMemoryDisplay() {
+            var memoryDisplay = document.getElementById("memoryTable");
+            var rowCount = 0;
+            var memoryPointer = 0;
+            for (var i = 0; i < _MemorySize; i += 8) {
+                var iStr = i.toString(16).toUpperCase();
+                memoryDisplay.deleteRow(rowCount);
+                var row = memoryDisplay.insertRow(rowCount);
+                if (i < 10) {
+                    iStr = "0" + iStr;
+                }
+                if (i < 100) {
+                    iStr = "0" + iStr;
+                }
+                if (i > 100 && i < 256) {
+                    iStr = "0" + iStr;
+                }
+                iStr = "0x" + iStr;
+                row.textContent = iStr;
+                var cell = row.insertCell(0);
+                for (var j = 0; j < 8; j++) {
+                    cell = row.insertCell(j + 1);
+                    cell.textContent = _Memory.memory(memoryPointer);
+                    memoryPointer++;
+                }
+                rowCount++;
+            }
+        }
+        static updateCpuDisplay(pcb, instruction) {
+            var table = document.getElementById("cpuTable");
+            table.deleteRow(1);
+            var body = [pcb.programCounter.toString(), instruction, TSOS.Utils.toHexDigit(pcb.acc, 2), TSOS.Utils.toHexDigit(pcb.XRegister, 2), TSOS.Utils.toHexDigit(pcb.YRegister, 2), pcb.ZFlag.toString()];
+            var bodyRow = table.insertRow();
+            for (var i = 0; i < body.length; i++) {
+                bodyRow.insertCell(i).textContent = body[i];
+            }
+        }
+        static updatePcbDisplay(isLoadCommand, pcb, instruction) {
+            let table = document.getElementById("pcbTable");
+            if (instruction === undefined) {
+                instruction = "--";
+            }
+            let tableBody = "<tbody>" + "<tr>" + "<th>PID</th><th>State</th><th>PC</th><th>IR</th><th>ACC</th><th>X</th><th>Y</th><th>Z</th><th>Base</th><th>Limit</th><th>Location</th>" + "</tr>";
+            for (let i = 0; i < _MemoryManager.residentList.length; i++) {
+                tableBody += "<tr>" +
+                    `<td> ${_MemoryManager.residentList[i].processID.toString()} </td>` +
+                    `<td> ${_MemoryManager.residentList[i].processState} </td>` +
+                    `<td> ${_MemoryManager.residentList[i].programCounter.toString()} </td>` +
+                    `<td> ${instruction} </td>` +
+                    `<td> ${TSOS.Utils.toHexDigit(_MemoryManager.residentList[i].acc, 2)} </td>` +
+                    `<td> ${TSOS.Utils.toHexDigit(_MemoryManager.residentList[i].XRegister, 2)} </td>` +
+                    `<td> ${TSOS.Utils.toHexDigit(_MemoryManager.residentList[i].YRegister, 2)} </td>` +
+                    `<td> ${_MemoryManager.residentList[i].ZFlag.toString()} </td>` +
+                    `<td> ${_MemoryManager.residentList[i].baseRegister.toString()} </td>` +
+                    `<td> ${_MemoryManager.residentList[i].limitRegister.toString()} </td>` +
+                    `<td> ${_MemoryManager.residentList[i].memSegment} </td>` +
+                    "</tr>";
+            }
+            tableBody += "</tbody>";
+            table.innerHTML = tableBody;
         }
         static hostLog(msg, source = "?") {
             // Note the OS CLOCK.

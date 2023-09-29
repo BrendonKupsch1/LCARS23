@@ -42,6 +42,23 @@ var TSOS;
             }
             return retVal;
         }
+        // takes a decimal number and length for hex number and ouputs hex
+        static toHexDigit(num, desiredLength) {
+            let output = num.toString(16).toUpperCase();
+            // pad with zeros
+            try {
+                if (output.length < desiredLength) {
+                    let numZero = desiredLength - output.length;
+                    for (let i = 0; i < numZero; i++) {
+                        output = "0" + output;
+                    }
+                }
+            }
+            catch {
+                output = "Error [hexValue conversion]: number undefined";
+            }
+            return output;
+        }
     }
     TSOS.Utils = Utils;
 })(TSOS || (TSOS = {}));
