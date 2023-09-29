@@ -69,6 +69,9 @@ var TSOS;
             // load
             sc = new TSOS.ShellCommand(this.shellLoad, "load", "- Validates the user code in the text area.");
             this.commandList[this.commandList.length] = sc;
+            // run
+            sc = new TSOS.ShellCommand(this.shellRun, "run", "<pid> - Runs the process with the specified pid.");
+            this.commandList[this.commandList.length] = sc;
             // tab completion testing
             /* sc = new ShellCommand(this.shellTabTest1,
                                     "tabtest1",
@@ -248,6 +251,9 @@ var TSOS;
                     case "load":
                         _StdOut.putText("Load validates the user code in the text area.");
                         break;
+                    case "run":
+                        _StdOut.putText("Run <pid> runs the process with the specified pid.");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -347,6 +353,23 @@ var TSOS;
                 var arrayProgram = _UserProgramInput.split(" ");
                 var processID = _MemoryManager.load(arrayProgram, 1);
                 _StdOut.putText("Process ID: " + processID);
+            }
+        }
+        shellRun(args) {
+            if (args.length > 0) {
+                var pid = parseInt(args[0]);
+                if (isNaN(pid)) {
+                    _StdOut.putText("Invalid PID. Please enter a valid PID.");
+                }
+                else if (_MemoryManager.doesProcessExist(pid)) {
+                    _CPU.runProcess(pid);
+                }
+                else {
+                    _StdOut.putText("Process does not exist.");
+                }
+            }
+            else {
+                _StdOut.putText("Usage: run <pid>  Please supply a PID.");
             }
         }
     }

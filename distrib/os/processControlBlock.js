@@ -8,7 +8,7 @@ var TSOS;
         YRegister;
         ZFlag;
         processID;
-        processState; // new, ready, waiting, running, terminated
+        processState; // new, ready, resident, executing, terminated
         baseRegister;
         limitRegister;
         isInMemory;

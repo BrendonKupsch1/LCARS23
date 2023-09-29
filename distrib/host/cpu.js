@@ -33,6 +33,11 @@ var TSOS;
         }
         init() {
         }
+        runProcess(pid) {
+            this.currentPCB = _MemoryManager.residentList(pid);
+            this.currentPCB.processState = "Executing";
+            this.isExecuting = true;
+        }
         cycle() {
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
