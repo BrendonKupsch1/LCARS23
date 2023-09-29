@@ -52,6 +52,60 @@ module TSOS {
             }
         }
 
+        public static initMemoryDisplay(): void {
+            var memoryDisplay = <HTMLTableElement> document.getElementById("memoryTable");
+            var rowCount = 0;
+            // 
+            for (var i = 0; i <_MemorySize; i += 8) {
+                var iStr = i.toString(16).toUpperCase();
+                var row = memoryDisplay.insertRow(rowCount);
+                if (i < 10) {
+                    iStr = "0" + iStr;
+                }
+                if (i < 100) {
+                    iStr = "0" + iStr;
+                }
+                if (i > 100 && i < 256) {
+                    iStr = "0" + iStr;
+                }
+
+                iStr = "0x" + iStr;
+                row.textContent = iStr;
+                var cell = row.insertCell(0);
+                for (var j = 0; j < 8; j++) {
+                    cell = row.insertCell(j + 1);
+                    cell.textContent = "00";
+                }
+                rowCount++;
+
+            }
+        }
+
+        public static initCpuDisplay(): void {
+            var table = <HTMLTableElement> document.getElementById("cpuTable");
+            var headers = ['PC', 'IR', 'Acc', 'X', 'Y', 'Z'];
+            var body = ['000', '--', '00', '00', '00', '0'];
+            var headerRow = table.insertRow();
+            var bodyRow = table.insertRow();
+            for (var i = 0; i < headers.length; i++) {
+                headerRow.insertCell(i).textContent = headers[i];
+                bodyRow.insertCell(i).textContent = body[i];
+            }
+        }
+
+        // needs testing the most
+        public static initPcbDisplay(): void {
+            var table = <HTMLTableElement> document.getElementById("pcbTable");
+            var headers = ['PID', 'PC', 'IR', 'Acc', 'X', 'Y', 'Z', 'State'];
+            var body = ['00', '000', '--', '00', '00', '00', '0', 'New'];
+            var headerRow = table.insertRow();
+            var bodyRow = table.insertRow();
+            for (var i = 0; i < headers.length; i++) {
+                headerRow.insertCell(i).textContent = headers[i];
+                bodyRow.insertCell(i).textContent = body[i];
+            }
+        }
+
         public static hostLog(msg: string, source: string = "?"): void {
             // Note the OS CLOCK.
             var clock: number = _OSclock;

@@ -32,6 +32,7 @@ module TSOS {
         public runProcess(pid: number): void {
             this.currentPCB = _MemoryManager.residentList(pid);
             this.currentPCB.processState = "Executing";
+            TSOS.Control.updatePcbDisplay(false, this.currentPCB);
             this.isExecuting = true;
         }
 
