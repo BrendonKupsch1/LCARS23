@@ -75,7 +75,7 @@ var TSOS;
         }
         static initCpuDisplay() {
             var table = document.getElementById("cpuTable");
-            var headers = ['PC', 'IR', 'Acc', 'X', 'Y', 'Z'];
+            var headers = ['PC', 'IR', 'ACC', 'X', 'Y', 'Z'];
             var body = ['000', '--', '00', '00', '00', '0'];
             var headerRow = table.insertRow();
             var bodyRow = table.insertRow();
@@ -87,7 +87,7 @@ var TSOS;
         // needs testing
         static initPcbDisplay() {
             var table = document.getElementById("pcbTable");
-            var headers = ['PID', 'PC', 'IR', 'Acc', 'X', 'Y', 'Z', 'State'];
+            var headers = ['PID', 'PC', 'IR', 'ACC', 'X', 'Y', 'Z', 'State'];
             var body = ['00', '000', '--', '00', '00', '00', '0', 'New'];
             var headerRow = table.insertRow();
             var bodyRow = table.insertRow();
@@ -118,7 +118,7 @@ var TSOS;
                 var cell = row.insertCell(0);
                 for (var j = 0; j < 8; j++) {
                     cell = row.insertCell(j + 1);
-                    cell.textContent = _Memory.memory(memoryPointer);
+                    cell.textContent = _Memory.memory[memoryPointer];
                     memoryPointer++;
                 }
                 rowCount++;
@@ -127,7 +127,7 @@ var TSOS;
         static updateCpuDisplay(pcb, instruction) {
             var table = document.getElementById("cpuTable");
             table.deleteRow(1);
-            var body = [pcb.programCounter.toString(), instruction, TSOS.Utils.toHexDigit(pcb.acc, 2), TSOS.Utils.toHexDigit(pcb.XRegister, 2), TSOS.Utils.toHexDigit(pcb.YRegister, 2), pcb.ZFlag.toString()];
+            var body = [instruction, TSOS.Utils.toHexDigit(pcb.acc, 2), TSOS.Utils.toHexDigit(pcb.XRegister, 2), TSOS.Utils.toHexDigit(pcb.YRegister, 2), pcb.ZFlag.toString()];
             var bodyRow = table.insertRow();
             for (var i = 0; i < body.length; i++) {
                 bodyRow.insertCell(i).textContent = body[i];
