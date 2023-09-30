@@ -95,6 +95,9 @@ var TSOS;
                         break;
                 }
             }
+            this.currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            TSOS.Control.updateCpuDisplay(this.currentPCB, this.instruction);
+            TSOS.Control.updatePcbDisplay(false, this.currentPCB, this.instruction);
         }
         loadAccWithConstant() {
             this.PC++;
@@ -148,7 +151,9 @@ var TSOS;
         }
         breakSystemCall() {
             this.currentPCB.processState = "Terminated";
+            TSOS.Control.updatePcbDisplay(false, this.currentPCB);
             _MemoryManager.deallocateMemory(this.currentPCB);
+            TSOS.Control.updateMemoryDisplay();
             this.currentPCB = null;
             this.PC = 0;
             this.Acc = 0;
@@ -194,7 +199,7 @@ var TSOS;
                 this.PC++;
             }
             else if (this.Xreg === 2) {
-                var output = ' ';
+                var output = '';
                 var addr = this.Yreg;
                 var data = _MemoryAccessor.read(this.currentPCB, addr);
                 while (data !== '00') {
