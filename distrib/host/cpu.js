@@ -35,7 +35,7 @@ var TSOS;
         }
         // used by shell command shellRun to start executing a program
         runProcess(pid) {
-            this.currentPCB = _MemoryManager.residentList(pid);
+            this.currentPCB = _MemoryManager.residentList[pid];
             this.currentPCB.processState = "Executing";
             TSOS.Control.updatePcbDisplay(false, this.currentPCB);
             this.isExecuting = true;

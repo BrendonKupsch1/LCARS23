@@ -158,17 +158,17 @@ module TSOS {
             let tableBody = "<tbody>" + "<tr>" + "<th>PID</th><th>State</th><th>PC</th><th>IR</th><th>ACC</th><th>X</th><th>Y</th><th>Z</th><th>Base</th><th>Limit</th><th>Location</th>" + "</tr>";
             for (let i = 0; i < _MemoryManager.residentList.length; i++) {
                 tableBody += "<tr>" +
-                    `<td> ${_MemoryManager.residentList[i].processID.toString()} </td>` +
-                    `<td> ${_MemoryManager.residentList[i].processState} </td>` +
-                    `<td> ${_MemoryManager.residentList[i].programCounter.toString()} </td>` +
-                    `<td> ${instruction} </td>` +
-                    `<td> ${TSOS.Utils.toHexDigit(_MemoryManager.residentList[i].acc, 2)} </td>` +
-                    `<td> ${TSOS.Utils.toHexDigit(_MemoryManager.residentList[i].XRegister, 2)} </td>` +
-                    `<td> ${TSOS.Utils.toHexDigit(_MemoryManager.residentList[i].YRegister, 2)} </td>` +
-                    `<td> ${_MemoryManager.residentList[i].ZFlag.toString()} </td>` +
-                    `<td> ${_MemoryManager.residentList[i].baseRegister.toString()} </td>` +
-                    `<td> ${_MemoryManager.residentList[i].limitRegister.toString()} </td>` +
-                    `<td> ${_MemoryManager.residentList[i].memSegment} </td>` +
+                    "<td>" + _MemoryManager.residentList[i].processID + "</td>" +
+                    "<td>" + _MemoryManager.residentList[i].processState + "</td>" +
+                    "<td>" + _MemoryManager.residentList[i].programCounter + "</td>" +
+                    "<td>" + instruction + "</td>" +
+                    "<td>" + _MemoryManager.residentList[i].acc + "</td>" +
+                    "<td>" + _MemoryManager.residentList[i].XRegister + "</td>" +
+                    "<td>" + _MemoryManager.residentList[i].YRegister + "</td>" +
+                    "<td>" + _MemoryManager.residentList[i].ZFlag + "</td>" +
+                    "<td>" + _MemoryManager.residentList[i].baseRegister + "</td>" +
+                    "<td>" + _MemoryManager.residentList[i].limitRegister + "</td>" +
+                    "<td>" + _MemoryManager.residentList[i].isInMemory + "</td>" +
                     "</tr>";
             }
             tableBody += "</tbody>";

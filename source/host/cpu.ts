@@ -31,7 +31,7 @@ module TSOS {
 
         // used by shell command shellRun to start executing a program
         public runProcess(pid: number): void {
-            this.currentPCB = _MemoryManager.residentList(pid);
+            this.currentPCB = _MemoryManager.residentList[pid];
             this.currentPCB.processState = "Executing";
             TSOS.Control.updatePcbDisplay(false, this.currentPCB);
             this.isExecuting = true;

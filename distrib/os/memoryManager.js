@@ -62,6 +62,12 @@ var TSOS;
                 }
             }
         }
+        doesProcessExist(pid) {
+            if (this.residentList[pid] !== undefined) {
+                return true;
+            }
+            return false;
+        }
     }
     TSOS.MemoryManager = MemoryManager;
 })(TSOS || (TSOS = {}));

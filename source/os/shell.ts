@@ -434,7 +434,8 @@ module TSOS {
             }
         }
 
-
+        // use to test run, when i copy and paste from labouseur's website, the spaces don't work but my own spaces do work?
+        // A9A9A201EC1300AC0B008DF000EE0B00D0F50000
         public shellRun(args: string[]) {
             if (args.length > 0) {
                 var pid = parseInt(args[0]);

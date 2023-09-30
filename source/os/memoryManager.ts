@@ -77,5 +77,11 @@ module TSOS {
             }
         }
 
+        public doesProcessExist(pid: number): boolean {
+            if (this.residentList[pid] !== undefined) {
+                return true;
+            }
+            return false;
+        }
     }
 }
