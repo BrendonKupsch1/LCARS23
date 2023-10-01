@@ -153,6 +153,7 @@ var TSOS;
             this.currentYPosition -= _DefaultFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) + _FontHeightMargin;
             _DrawingContext.putImageData(imageData, 0, 0);
         }
+        // backspace cannot go back up the line wrap
         backspace() {
             if (this.buffer.length > 0) {
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length - 1));

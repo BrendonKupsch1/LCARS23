@@ -37,6 +37,7 @@ var TSOS;
             }
             this.memory[address] = data;
         }
+        // used for memory display
         getSize() {
             return this.memory.length;
         }
