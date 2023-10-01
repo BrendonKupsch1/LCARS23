@@ -46,7 +46,7 @@ module TSOS {
             this.memory[address] = data;
         }
 
-
+        // used for memory display
         public getSize() {
             return this.memory.length;
         }

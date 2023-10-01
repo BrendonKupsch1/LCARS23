@@ -49,7 +49,6 @@ Using GitHub Copilot to help write this code.
 
     Copilot is extremely helpful for commenting code. It does a very good job at reading your code and creating a comment very close to what I would write myself.
      After using GitHub Copilot for some time, it is worth the price of admission for commenting alone. I save so much time not having to write comments myself.
-    Copilot does not write the code for you line for line, but is very good at finishing half a line I've already written. Copiloit is also very helpful with the monotonous repetitive code, such as the start of a function.
     Copilot is also very good at basic functions like the operational codes. I think this is becasue it has a large database of OS students who wrote similar code.
 
     Copilot did a great job with initDisplays and updateDisplays functiosn in control.ts.
