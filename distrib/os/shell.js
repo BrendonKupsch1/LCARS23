@@ -355,8 +355,8 @@ var TSOS;
                 _StdOut.putText("Process ID: " + processID);
             }
         }
-        // use to test run, when i copy and paste from labouseur's website, the spaces don't work but my own spaces do work?
-        // A9A9A201EC1300AC0B008DF000EE0B00D0F50000
+        // use to test run, when i copy and paste from labouseur.com the spaces don't work, but my own spaces do work?
+        // A9 A9 A2 01 EC 13 00 AC 0B 00 8D F0 00 EE 0B 00 D0 F5 00 00
         shellRun(args) {
             if (args.length > 0) {
                 var pid = parseInt(args[0]);

@@ -50,6 +50,7 @@ var TSOS;
                     if (code === undefined) {
                         code = "00";
                     }
+                    _Memory.setByte(pcb.baseRegister + i, code);
                 }
             }
         }

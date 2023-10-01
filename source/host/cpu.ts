@@ -29,7 +29,7 @@ module TSOS {
         public init(): void {
         }
 
-        
+
 
         // used by shell command shellRun to start executing a program
         public runProcess(pid: number): void {
