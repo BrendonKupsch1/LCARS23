@@ -65,6 +65,7 @@ module TSOS {
                 }
 
             }
+            TSOS.Control.updateMemoryDisplay();
 
         }
 

@@ -50,7 +50,6 @@ var TSOS;
         static initMemoryDisplay() {
             var memoryDisplay = document.getElementById("memoryTable");
             var rowCount = 0;
-            // 
             for (var i = 0; i < _MemorySize; i += 8) {
                 var iStr = i.toString(16).toUpperCase();
                 var row = memoryDisplay.insertRow(rowCount);

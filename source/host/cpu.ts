@@ -33,7 +33,16 @@ module TSOS {
 
         // used by shell command shellRun to start executing a program
         public runProcess(pid: number): void {
+
+            // first load the process info into the CPU's registers
             this.currentPCB = _MemoryManager.residentList[pid];
+            this.PC = this.currentPCB.programCounter;
+            this.Acc = this.currentPCB.acc;
+            this.Xreg = this.currentPCB.XRegister;
+            this.Yreg = this.currentPCB.YRegister;
+            this.Zflag = this.currentPCB.ZFlag;
+
+            // then run it
             this.currentPCB.processState = "Executing";
             TSOS.Control.updatePcbDisplay(false, this.currentPCB);
             this.isExecuting = true;
@@ -46,6 +55,7 @@ module TSOS {
             if (this.currentPCB !== null && this.isExecuting) {
                 _Kernel.krnTrace('CPU cycle');
                 this.instruction = _MemoryAccessor.read(this.currentPCB, this.PC);
+                var Hold_currentPCB = this.currentPCB;
 
                 switch(this.instruction) {
                     case 'A9': // load the accumulator with a constant
@@ -95,11 +105,13 @@ module TSOS {
                         this.isExecuting = false;
                         break;
                 }
+                if (this.currentPCB) {
+                    Hold_currentPCB = this.currentPCB;
+                }
+                Hold_currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+                TSOS.Control.updateCpuDisplay(Hold_currentPCB, this.instruction);
+                TSOS.Control.updatePcbDisplay(false, Hold_currentPCB, this.instruction);
             }
-            this.currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
-
-            TSOS.Control.updateCpuDisplay(this.currentPCB, this.instruction);
-            TSOS.Control.updatePcbDisplay(false, this.currentPCB, this.instruction);
         }
 
         private loadAccWithConstant() {

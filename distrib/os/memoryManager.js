@@ -53,6 +53,7 @@ var TSOS;
                     _Memory.setByte(pcb.baseRegister + i, code);
                 }
             }
+            TSOS.Control.updateMemoryDisplay();
         }
         deallocateMemory(pcb) {
             for (var i = 0; i < this.allocated.length; i++) {
