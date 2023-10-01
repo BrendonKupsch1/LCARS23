@@ -116,11 +116,19 @@ var TSOS;
                 decided to write one function and use the term "text" to connote string or char.
             */
             if (text !== "") {
-                // Draw the text at the current X and Y coordinates.
-                _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
-                // Move the current X position.
-                var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
-                this.currentXPosition = this.currentXPosition + offset;
+                // break up character by character for line wrap to work
+                for (var i = 0; i < text.length; i++) {
+                    var char = text.charAt(i);
+                    var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, char);
+                    // checks if the current x position plus the offset is greater than the width of the canvas
+                    if (this.currentXPosition + offset > _Canvas.width - 25) {
+                        this.advanceLine();
+                    }
+                    // Draw the text at the current X and Y coordinates.
+                    _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, char);
+                    // Move the current X position.
+                    this.currentXPosition = this.currentXPosition + offset;
+                }
             }
         }
         advanceLine() {
@@ -146,14 +154,15 @@ var TSOS;
             _DrawingContext.putImageData(imageData, 0, 0);
         }
         backspace() {
-            var stringBufferLength = this.buffer.length;
-            var lastChar = stringBufferLength - 1;
-            this.buffer = this.buffer.substring(0, lastChar);
-            // clear line
-            _DrawingContext.clearRect(0, this.currentYPosition - this.currentFontSize, _Canvas.width, this.currentFontSize + 10);
-            this.currentXPosition = 0;
-            // replace text with buffer
-            this.putText(">" + this.buffer);
+            if (this.buffer.length > 0) {
+                var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length - 1));
+                var xBeginningPos = this.currentXPosition - offset;
+                var offsetY = _DefaultFontSize;
+                var yBeginningPos = this.currentYPosition - offsetY;
+                _DrawingContext.clearRect(xBeginningPos, yBeginningPos, offset, offsetY + 5);
+                this.currentXPosition = xBeginningPos;
+                this.buffer = this.buffer.substring(0, this.buffer.length - 1);
+            }
         }
     }
     TSOS.Console = Console;

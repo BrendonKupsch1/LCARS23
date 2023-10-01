@@ -53,6 +53,7 @@ var TSOS;
             if (this.currentPCB !== null && this.isExecuting) {
                 _Kernel.krnTrace('CPU cycle');
                 this.instruction = _MemoryAccessor.read(this.currentPCB, this.PC);
+                // kept getting a null error with regards to the currentPCB, so I made a copy of it to hold its value (this is not great, but it works)
                 var Hold_currentPCB = this.currentPCB;
                 switch (this.instruction) {
                     case 'A9': // load the accumulator with a constant
