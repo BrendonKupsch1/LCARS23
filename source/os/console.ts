@@ -157,7 +157,8 @@ module TSOS {
                 _Kernel.krnTrace("");
                 this.scrollText();
             }
-        }   
+        }
+
         public scrollText() {
             // takes an image of the current canvas
             var imageData = _DrawingContext.getImageData(0, this.currentFontSize + 10, _Canvas.width, _Canvas.height);
@@ -167,6 +168,7 @@ module TSOS {
             _DrawingContext.putImageData(imageData, 0, 0);
         }
 
+        // backspace cannot go back up the line wrap
         public backspace(): void {
             if (this.buffer.length > 0) {
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length - 1));
