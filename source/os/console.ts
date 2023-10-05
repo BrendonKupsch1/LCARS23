@@ -181,7 +181,7 @@ module TSOS {
             }
         }
 
-        /* this backspace implementation no longer works because of line wrap
+        /* this backspace implementation no longer works because of line wrap :(
         public backspace(): void {
             var stringBufferLength = this.buffer.length;
             var lastChar = stringBufferLength - 1;
