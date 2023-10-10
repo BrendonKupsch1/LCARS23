@@ -86,8 +86,8 @@ var TSOS;
         // needs testing
         static initPcbDisplay() {
             var table = document.getElementById("pcbTable");
-            var headers = ['PID', 'PC', 'IR', 'ACC', 'X', 'Y', 'Z', 'State'];
-            var body = ['00', '000', '--', '00', '00', '00', '0', 'New'];
+            var headers = ['PID', 'State', 'PC', 'IR', 'ACC', 'X', 'Y', 'Z', 'Base', 'Limit'];
+            var body = ['--', '--', '000', '--', '00', '00', '00', '0', '0', '0', '--'];
             var headerRow = table.insertRow();
             var bodyRow = table.insertRow();
             for (var i = 0; i < headers.length; i++) {
