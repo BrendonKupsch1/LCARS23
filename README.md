@@ -41,6 +41,7 @@ This will be especially helpful for an OS or a Compiler that may need to run in 
 
 
 Brendon Kupsch's notes:
+My brother Evan Kupsch helped me with memeory and pcb implementation, and with difficult errors that I was stuck on.
 Using GitHub Copilot to help write this code.
  https://copilot.github.com/ 
 
@@ -52,7 +53,3 @@ Using GitHub Copilot to help write this code.
     Copilot is also very good at basic functions like the operational codes. I think this is becasue it has a large database of OS students who wrote similar code.
 
     Copilot did a great job with initDisplays and updateDisplays functiosn in control.ts.
-
-
- 
-My brother Evan Kupsch helped me with memeory and pcb implementation, and with difficult errors that I was stuck on.

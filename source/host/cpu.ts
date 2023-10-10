@@ -113,15 +113,16 @@ module TSOS {
                 if (this.currentPCB) {
                     Hold_currentPCB = this.currentPCB;
                 }
-                Hold_currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
-                TSOS.Control.updateCpuDisplay(Hold_currentPCB, this.instruction);
-                TSOS.Control.updatePcbDisplay(false, Hold_currentPCB, this.instruction);
             }
 
             // stop executing if single step is true
             if (TSOS.Cpu.singleStep) {
                 this.isExecuting = false;
             }
+            
+            Hold_currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            TSOS.Control.updateCpuDisplay(Hold_currentPCB, this.instruction);
+            TSOS.Control.updatePcbDisplay(false, Hold_currentPCB, this.instruction);            
         }
 
         private loadAccWithConstant() {
