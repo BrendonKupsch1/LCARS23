@@ -15,6 +15,8 @@ module TSOS {
 
     export class Cpu {
 
+        public static singleStep: boolean;
+
         constructor(public PC: number = 0,
                     public Acc: number = 0,
                     public Xreg: number = 0,
@@ -23,6 +25,7 @@ module TSOS {
                     public isExecuting: boolean = false,
                     public instruction: string = "N/A",
                     public currentPCB: TSOS.ProcessControlBlock = null) {
+            TSOS.Cpu.singleStep = false;
 
         }
 
@@ -113,6 +116,11 @@ module TSOS {
                 Hold_currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
                 TSOS.Control.updateCpuDisplay(Hold_currentPCB, this.instruction);
                 TSOS.Control.updatePcbDisplay(false, Hold_currentPCB, this.instruction);
+            }
+
+            // stop executing if single step is true
+            if (TSOS.Cpu.singleStep) {
+                this.isExecuting = false;
             }
         }
 
