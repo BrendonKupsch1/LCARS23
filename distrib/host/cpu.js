@@ -22,6 +22,7 @@ var TSOS;
         instruction;
         currentPCB;
         static singleStep;
+        savedState;
         constructor(PC = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = 0, isExecuting = false, instruction = "N/A", currentPCB = null) {
             this.PC = PC;
             this.Acc = Acc;
@@ -32,6 +33,7 @@ var TSOS;
             this.instruction = instruction;
             this.currentPCB = currentPCB;
             TSOS.Cpu.singleStep = false;
+            this.savedState = null;
         }
         init() {
         }
@@ -113,9 +115,27 @@ var TSOS;
             if (TSOS.Cpu.singleStep) {
                 this.isExecuting = false;
             }
-            //    Hold_currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
+            Hold_currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
             TSOS.Control.updateCpuDisplay(Hold_currentPCB, this.instruction);
             TSOS.Control.updatePcbDisplay(false, Hold_currentPCB, this.instruction);
+        }
+        saveState() {
+            this.savedState = {
+                pcb: this.currentPCB,
+                pc: this.PC,
+                acc: this.Acc,
+                xReg: this.Xreg,
+                yReg: this.Yreg,
+                zFlag: this.Zflag
+            };
+        }
+        loadSavedState() {
+            this.currentPCB = this.savedState.pcb;
+            this.PC = this.savedState.pc;
+            this.Acc = this.savedState.acc;
+            this.Xreg = this.savedState.xReg;
+            this.Yreg = this.savedState.yReg;
+            this.Zflag = this.savedState.zFlag;
         }
         loadAccWithConstant() {
             this.PC++;
@@ -168,6 +188,8 @@ var TSOS;
             this.PC++;
         }
         breakSystemCall() {
+            // save current cpu state
+            this.saveState();
             this.currentPCB.processState = "Terminated";
             TSOS.Control.updatePcbDisplay(false, this.currentPCB);
             _MemoryManager.deallocateMemory(this.currentPCB);
@@ -181,6 +203,8 @@ var TSOS;
             if (!(_MemoryManager.readyQueue.getSize() > 0)) {
                 this.isExecuting = false;
             }
+            // load the next process
+            this.loadSavedState();
         }
         compareMemToXReg() {
             this.PC++;

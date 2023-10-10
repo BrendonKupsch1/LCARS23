@@ -125,6 +125,7 @@ module TSOS {
             TSOS.Control.updatePcbDisplay(false, Hold_currentPCB, this.instruction);            
         }
 
+
         private loadAccWithConstant() {
             this.PC++;
             this.Acc = parseInt(_MemoryAccessor.read(this.currentPCB, this.PC), 16);
