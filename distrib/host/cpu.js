@@ -21,6 +21,7 @@ var TSOS;
         isExecuting;
         instruction;
         currentPCB;
+        static singleStep;
         constructor(PC = 0, Acc = 0, Xreg = 0, Yreg = 0, Zflag = 0, isExecuting = false, instruction = "N/A", currentPCB = null) {
             this.PC = PC;
             this.Acc = Acc;
@@ -30,6 +31,7 @@ var TSOS;
             this.isExecuting = isExecuting;
             this.instruction = instruction;
             this.currentPCB = currentPCB;
+            TSOS.Cpu.singleStep = false;
         }
         init() {
         }
@@ -109,6 +111,10 @@ var TSOS;
                 Hold_currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
                 TSOS.Control.updateCpuDisplay(Hold_currentPCB, this.instruction);
                 TSOS.Control.updatePcbDisplay(false, Hold_currentPCB, this.instruction);
+            }
+            // stop executing if single step is true
+            if (TSOS.Cpu.singleStep) {
+                this.isExecuting = false;
             }
         }
         loadAccWithConstant() {

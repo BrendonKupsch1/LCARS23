@@ -205,7 +205,7 @@ module TSOS {
             (<HTMLButtonElement>document.getElementById("btnHaltOS")).disabled = false;
             (<HTMLButtonElement>document.getElementById("btnReset")).disabled = false;
             (<HTMLButtonElement>document.getElementById("btnSingleStep")).disabled = false;
-            (<HTMLButtonElement>document.getElementById("btnNextStep")).disabled = false;
+            (<HTMLButtonElement>document.getElementById("btnStep")).disabled = false;
 
             // .. set focus on the OS console display ...
             document.getElementById("display").focus();
@@ -244,8 +244,21 @@ module TSOS {
 
         // used for single step
         public static hostBtnSingleStep_click(btn): void {
-            // toggle single step mod
-            
+            // toggle single step mode
+            TSOS.Cpu.singleStep = !(TSOS.Cpu.singleStep);
+            (<HTMLButtonElement>document.getElementById("btnStep")).disabled = !(TSOS.Cpu.singleStep);
+            btn.value = (TSOS.Cpu.singleStep) ? "Single-Step: On" : "Single-Step: Off";
+
+            // if single step is turned off while executing
+            if (!TSOS.Cpu.singleStep && !_CPU.isExecuting && _CPU.PC !== 0) {
+                // resume execution
+                _CPU.isExecuting = true;
+            }
+        }
+
+        // used for single step
+        public static hostBtnNextStep_click(btn): void {
+            _CPU.isExecuting = true;
         }
     }
 }
