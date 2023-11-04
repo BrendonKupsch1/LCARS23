@@ -454,6 +454,9 @@ module TSOS {
             }
         }
 
+        public shellClearMem(args: string[]) {
+            
+
 
 
         /*
