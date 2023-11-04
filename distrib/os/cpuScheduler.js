@@ -57,7 +57,7 @@ var TSOS;
         resetCounter() {
             this.counter = 1;
         }
-        setExectuingPCB(pcb) {
+        setExecutingPCB(pcb) {
             this.executingPCB = pcb;
         }
         getScheduleMode() {

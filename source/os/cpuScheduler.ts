@@ -70,7 +70,7 @@ module TSOS {
             this.counter = 1;
         }
 
-        public setExectuingPCB(pcb: TSOS.ProcessControlBlock): void {
+        public setExecutingPCB(pcb: TSOS.ProcessControlBlock): void {
             this.executingPCB = pcb;
         }
 
