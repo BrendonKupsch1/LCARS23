@@ -43,10 +43,17 @@ var TSOS;
             else if ((keyCode == 32) || // space
                 (keyCode == 9) || //tab
                 (keyCode == 13) || // enter
-                (keyCode == 38) || // up arrow
-                (keyCode == 40) || // down arrow
                 (keyCode == 8)) { // backspace
                 chr = String.fromCharCode(keyCode);
+                _KernelInputQueue.enqueue(chr);
+            }
+            // handles up and down arrows
+            else if (keyCode == 38) {
+                chr = "upArrow";
+                _KernelInputQueue.enqueue(chr);
+            }
+            else if (keyCode == 40) {
+                chr = "downArrow";
                 _KernelInputQueue.enqueue(chr);
             }
             // if the key is a number and is shifted, then call the enableSymbol function
