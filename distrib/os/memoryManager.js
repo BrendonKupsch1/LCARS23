@@ -70,6 +70,17 @@ var TSOS;
             }
             return false;
         }
+        kiillProcess(pid) {
+            var pcb = this.residentList[pid];
+            pcb.processState = "Terminated";
+            TSOS.Control.updatePcbDisplay(false, pcb);
+            this.deallocateMemory(pcb);
+            TSOS.Control.updateMemoryDisplay();
+            // if last process in list, then stop executing CPU
+            if (this.readyQueue.getSize() === 0 && _CPU.currentPCB === null) {
+                _CPU.isExecuting = false;
+            }
+        }
         getAllRunningProcesses() {
             var processes = [];
             for (var i = 0; i < this.residentList.length; i++) {

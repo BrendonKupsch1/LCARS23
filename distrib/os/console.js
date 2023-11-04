@@ -85,20 +85,22 @@ var TSOS;
                     }
                 }
                 // handles up arrow
-                else if (chr === String.fromCharCode(38) && this.commandCount > 0) {
-                    this.currentXPosition = 0;
-                    this.commandCount -= 1;
-                    this.clearLine();
-                    this.buffer = this.commandHistory[this.commandCount];
-                    this.putText(_OsShell.promptStr + this.commandHistory[this.commandCount]);
+                else if (chr === "upArrow") {
+                    if (this.commandPointer != 0) {
+                        this.clearLine();
+                        this.putText(this.commandHistory[this.commandPointer]);
+                        this.buffer = this.commandHistory[this.commandPointer];
+                        this.commandPointer--;
+                    }
                 }
                 // handles down arrow
-                else if (chr === String.fromCharCode(40) && this.commandCount < this.commandHistory.length - 1) {
-                    this.currentXPosition = 0;
-                    this.commandCount += 1;
-                    this.clearLine();
-                    this.buffer = this.commandHistory[this.commandCount];
-                    this.putText(_OsShell.promptStr + this.commandHistory[this.commandCount]);
+                else if (chr === "downArrow") {
+                    if (this.commandPointer != this.commandHistory.length - 1) {
+                        this.clearLine();
+                        this.putText(this.commandHistory[this.commandPointer]);
+                        this.buffer = this.commandHistory[this.commandPointer];
+                        this.commandPointer++;
+                    }
                 }
                 else {
                     // This is a "normal" character, so ...

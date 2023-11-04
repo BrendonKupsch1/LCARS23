@@ -86,6 +86,18 @@ module TSOS {
             return false;
         }
 
+        public kiillProcess(pid: number): void {
+            var pcb = this.residentList[pid];
+            pcb.processState = "Terminated";
+            TSOS.Control.updatePcbDisplay(false, pcb);
+            this.deallocateMemory(pcb);
+            TSOS.Control.updateMemoryDisplay();
+            // if last process in list, then stop executing CPU
+            if (this.readyQueue.getSize() === 0 && _CPU.currentPCB === null) {
+                _CPU.isExecuting = false;
+            }
+        }
+
         public getAllRunningProcesses(): TSOS.ProcessControlBlock[] {
             var processes: TSOS.ProcessControlBlock[] = [];
             for (var i = 0; i < this.residentList.length; i++) {
