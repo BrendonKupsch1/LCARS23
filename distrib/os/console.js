@@ -65,6 +65,9 @@ var TSOS;
                     this.commandCount = this.commandHistory.length;
                     this.buffer = "";
                 }
+                else if (chr === String.fromCharCode(8)) { // backspace
+                    this.backspace();
+                }
                 // handles tab completion
                 // my brother helped me fix my tab completion error by modifying this loop and the clearLine function
                 else if (chr === String.fromCharCode(9)) {
