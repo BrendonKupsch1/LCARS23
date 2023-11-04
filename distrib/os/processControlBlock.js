@@ -12,6 +12,7 @@ var TSOS;
         baseRegister;
         limitRegister;
         isInMemory;
+        memSegment; // if in memory, hold segment of 0, 1, or 2
         static currentProcessID = 0;
         constructor(priority) {
             this.priotrity = priority;
@@ -25,6 +26,7 @@ var TSOS;
             this.baseRegister = -1;
             this.limitRegister = -1;
             this.isInMemory = false;
+            this.memSegment = -1;
         }
         update(pc, acc, XReg, YReg, ZFlag) {
             this.programCounter = pc;

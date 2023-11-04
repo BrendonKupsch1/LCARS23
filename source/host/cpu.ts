@@ -32,22 +32,44 @@ module TSOS {
         public init(): void {
         }
 
+        // new load process for context switching
+        public loadNewProcess(pcb: TSOS.ProcessControlBlock): void {
+            if (pcb.processState !== "Terminated") {
+                this.currentPCB = pcb;
+                this.PC = this.currentPCB.programCounter;
+                this.Acc = this.currentPCB.acc;
+                this.Xreg = this.currentPCB.XRegister;
+                this.Yreg = this.currentPCB.YRegister;
+                this.Zflag = this.currentPCB.ZFlag;
+                this.runNewProcess();
+            }
+        }
+
+        // new run process for contezxt switching
+        public runNewProcess() {
+            this.currentPCB.processState = "Executing";
+            TSOS.Control.updatePcbDisplay(false, this.currentPCB);
+            this.isExecuting = true;
+        }
 
 
         // used by shell command shellRun to start executing a program
         public runProcess(pid: number): void {
-
             // first load the process info into the CPU's registers
             this.currentPCB = _MemoryManager.residentList[pid];
-            this.PC = this.currentPCB.programCounter;
-            this.Acc = this.currentPCB.acc;
-            this.Xreg = this.currentPCB.XRegister;
-            this.Yreg = this.currentPCB.YRegister;
-            this.Zflag = this.currentPCB.ZFlag;
-
             // then run it
             this.currentPCB.processState = "Executing";
             TSOS.Control.updatePcbDisplay(false, this.currentPCB);
+            this.isExecuting = true;
+        }
+
+        public runAllProcesses(): void {
+            for (var i = 0; i < _MemoryManager.residentList.length; i++) {
+                var pcb = _MemoryManager.residentList[i];
+                pcb.processState = "Ready";
+                TSOS.Control.updatePcbDisplay(false, pcb);
+                _MemoryManager.readyQueue.enqueue(pcb);
+            }
             this.isExecuting = true;
         }
 
@@ -59,8 +81,10 @@ module TSOS {
                 _Kernel.krnTrace('CPU cycle');
                 this.instruction = _MemoryAccessor.read(this.currentPCB, this.PC);
 
+                _CpuScheduler.incrementCounter();
+
                 // kept getting a null error with regards to the currentPCB, so I made a copy of it to hold its value (this is not great, but it works)
-                var Hold_currentPCB = this.currentPCB;
+                //var Hold_currentPCB = this.currentPCB;
 
                 switch(this.instruction) {
                     case 'A9': // load the accumulator with a constant
@@ -110,21 +134,21 @@ module TSOS {
                         this.isExecuting = false;
                         break;
                 }
-                if (this.currentPCB) {
-                    Hold_currentPCB = this.currentPCB;
-                }
-
-                Hold_currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
-                TSOS.Control.updateCpuDisplay(Hold_currentPCB, this.instruction);
-                TSOS.Control.updatePcbDisplay(false, Hold_currentPCB, this.instruction);   
             }
+
+            if (this.PC > 256) {
+                this.PC = this.PC % 256;
+            }
+            
+            this.currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
 
             // stop executing if single step is true
             if (TSOS.Cpu.singleStep) {
                 this.isExecuting = false;
             }
             
-                     
+            TSOS.Control.updateCpuDisplay(this.currentPCB, this.instruction);
+            TSOS.Control.updatePcbDisplay(false, this.currentPCB, this.instruction);
         }
 
 
@@ -191,6 +215,8 @@ module TSOS {
             TSOS.Control.updatePcbDisplay(false, this.currentPCB);
             _MemoryManager.deallocateMemory(this.currentPCB);
             TSOS.Control.updateMemoryDisplay();
+            _CpuScheduler.setExecutingPCB(this.currentPCB);
+            _CpuScheduler.resetCounter();
             this.currentPCB = null;
             this.PC = 0;
             this.Acc = 0;

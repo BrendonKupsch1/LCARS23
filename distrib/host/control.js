@@ -86,7 +86,7 @@ var TSOS;
         // needs testing
         static initPcbDisplay() {
             var table = document.getElementById("pcbTable");
-            var headers = ['PID', 'State', 'PC', 'IR', 'ACC', 'X', 'Y', 'Z', 'Base', 'Limit'];
+            var headers = ['PID', 'State', 'PC', 'IR', 'ACC', 'X', 'Y', 'Z', 'Base', 'Limit', 'Location'];
             var body = ['--', '--', '000', '--', '00', '00', '00', '0', '0', '0', '--'];
             var headerRow = table.insertRow();
             var bodyRow = table.insertRow();
@@ -126,7 +126,7 @@ var TSOS;
         static updateCpuDisplay(pcb, instruction) {
             var table = document.getElementById("cpuTable");
             table.deleteRow(1);
-            var body = [instruction, TSOS.Utils.toHexDigit(pcb.acc, 2), TSOS.Utils.toHexDigit(pcb.XRegister, 2), TSOS.Utils.toHexDigit(pcb.YRegister, 2), pcb.ZFlag.toString()];
+            var body = [pcb.programCounter.toString(), instruction, TSOS.Utils.toHexDigit(pcb.acc, 2), TSOS.Utils.toHexDigit(pcb.XRegister, 2), TSOS.Utils.toHexDigit(pcb.YRegister, 2), pcb.ZFlag.toString()];
             var bodyRow = table.insertRow();
             for (var i = 0; i < body.length; i++) {
                 bodyRow.insertCell(i).textContent = body[i];
@@ -136,6 +136,15 @@ var TSOS;
             let table = document.getElementById("pcbTable");
             if (instruction === undefined) {
                 instruction = "--";
+            }
+            if (pcb.baseRegister === 0) {
+                pcb.memSegment = 0;
+            }
+            else if (pcb.baseRegister === 256) {
+                pcb.memSegment = 1;
+            }
+            else if (pcb.baseRegister === 512) {
+                pcb.memSegment = 2;
             }
             let tableBody = "<tbody>" + "<tr>" + "<th>PID</th><th>State</th><th>PC</th><th>IR</th><th>ACC</th><th>X</th><th>Y</th><th>Z</th><th>Base</th><th>Limit</th><th>Location</th>" + "</tr>";
             for (let i = 0; i < _MemoryManager.residentList.length; i++) {

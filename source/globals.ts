@@ -20,6 +20,8 @@ const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (inte
                               // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ: number = 1;
 
+const CONTEXT_SWITCH_IRQ: number = 2;
+
 
 //
 // Global Variables
@@ -61,7 +63,11 @@ var _CPU: TSOS.Cpu;
 var _Memory: TSOS.Memory; // = new TSOS.Memory();
 var _MemorySize: number = 768;
 var _MemoryAccessor: TSOS.MemoryAccessor; // = new TSOS.MemoryAccessor();
+
+// software
 var _MemoryManager: any	=	null; 
+var _CpuScheduler: TSOS.CpuScheduler; // = new TSOS.CpuScheduler();
+var _CpuDispatcher: TSOS.CpuDispatcher; // = new TSOS.CpuDispatcher();
 
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode: boolean = false;

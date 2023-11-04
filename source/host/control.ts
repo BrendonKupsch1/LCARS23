@@ -100,7 +100,7 @@ module TSOS {
         // needs testing
         public static initPcbDisplay(): void {
             var table = <HTMLTableElement> document.getElementById("pcbTable");
-            var headers = ['PID', 'State', 'PC', 'IR', 'ACC', 'X', 'Y', 'Z', 'Base', 'Limit', ];
+            var headers = ['PID', 'State', 'PC', 'IR', 'ACC', 'X', 'Y', 'Z', 'Base', 'Limit', 'Location'];
             var body = ['--', '--', '000', '--', '00', '00', '00', '0', '0', '0', '--'];
             var headerRow = table.insertRow();
             var bodyRow = table.insertRow();
@@ -163,7 +163,7 @@ module TSOS {
             else if (pcb.baseRegister === 512) {
                 pcb.memSegment = 2;
             }
-            
+
             let tableBody = "<tbody>" + "<tr>" + "<th>PID</th><th>State</th><th>PC</th><th>IR</th><th>ACC</th><th>X</th><th>Y</th><th>Z</th><th>Base</th><th>Limit</th><th>Location</th>" + "</tr>";
             for (let i = 0; i < _MemoryManager.residentList.length; i++) {
                 tableBody += "<tr>" +
