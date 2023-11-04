@@ -27,7 +27,7 @@ module TSOS {
             this.quantum = q;
         }
 
-        public setQuantum(): number {
+        public setQuantum(q: number): number {
             return this.quantum;
         }
 

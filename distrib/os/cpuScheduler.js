@@ -20,7 +20,7 @@ var TSOS;
         getQuantum(q) {
             this.quantum = q;
         }
-        setQuantum() {
+        setQuantum(q) {
             return this.quantum;
         }
         schedule() {

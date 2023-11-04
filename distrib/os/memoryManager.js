@@ -70,6 +70,16 @@ var TSOS;
             }
             return false;
         }
+        getAllRunningProcesses() {
+            var processes = [];
+            for (var i = 0; i < this.residentList.length; i++) {
+                var pcb = this.residentList[i];
+                if (pcb.processState === "Running" || pcb.processState === "Ready" || pcb.processState === "Resident") {
+                    processes.push(pcb);
+                }
+            }
+            return processes;
+        }
     }
     TSOS.MemoryManager = MemoryManager;
 })(TSOS || (TSOS = {}));

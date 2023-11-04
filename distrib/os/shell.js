@@ -72,6 +72,24 @@ var TSOS;
             // run
             sc = new TSOS.ShellCommand(this.shellRun, "run", "<pid> - Runs the process with the specified pid.");
             this.commandList[this.commandList.length] = sc;
+            // clearmem
+            sc = new TSOS.ShellCommand(this.shellClearMem, "clearmem", "- Clears all memory partitions.");
+            this.commandList[this.commandList.length] = sc;
+            // runall
+            sc = new TSOS.ShellCommand(this.shellRunAll, "runall", "- Runs all processes in the ready queue.");
+            this.commandList[this.commandList.length] = sc;
+            // ps
+            sc = new TSOS.ShellCommand(this.shellPs, "ps", "- Lists all running processes and their IDs.");
+            this.commandList[this.commandList.length] = sc;
+            // kill
+            sc = new TSOS.ShellCommand(this.shellKill, "kill", "<pid> - Kills the process with the specified pid.");
+            this.commandList[this.commandList.length] = sc;
+            // killall
+            sc = new TSOS.ShellCommand(this.shellKillAll, "killall", "- Kills all running processes.");
+            this.commandList[this.commandList.length] = sc;
+            // quantum
+            sc = new TSOS.ShellCommand(this.shellQuantum, "quantum", "<int> - Sets the quantum for Round Robin scheduling.");
+            this.commandList[this.commandList.length] = sc;
             // tab completion testing
             /* sc = new ShellCommand(this.shellTabTest1,
                                     "tabtest1",
@@ -254,6 +272,24 @@ var TSOS;
                     case "run":
                         _StdOut.putText("Run <pid> runs the process with the specified pid.");
                         break;
+                    case "clearmem":
+                        _StdOut.putText("Clearmem clears all memory partitions.");
+                        break;
+                    case "runall":
+                        _StdOut.putText("Runall runs all processes in the ready queue.");
+                        break;
+                    case "ps":
+                        _StdOut.putText("Ps lists all running processes and their IDs.");
+                        break;
+                    case "kill":
+                        _StdOut.putText("Kill <pid> kills the process with the specified pid.");
+                        break;
+                    case "killall":
+                        _StdOut.putText("Killall kills all running processes.");
+                        break;
+                    case "quantum":
+                        _StdOut.putText("Quantum <int> sets the quantum for Round Robin scheduling.");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
@@ -372,6 +408,70 @@ var TSOS;
             }
             else {
                 _StdOut.putText("Usage: run <pid>  Please supply a PID.");
+            }
+        }
+        shellClearMem(args) {
+            if (!_CPU.isExecuting) {
+                _Memory.clearMemory();
+                TSOS.Control.updateMemoryDisplay();
+                _StdOut.putText("Memory cleared.");
+            }
+            else {
+                _StdOut.putText("Cannot clear memory while CPU is executing.");
+            }
+        }
+        shellRunAll(args) {
+            _CPU.runAllProcesses();
+        }
+        shellPs(args) {
+            var proccesses = _MemoryManager.getAllRunningProcesses();
+            if (proccesses.length === 0) {
+                _StdOut.putText("No running processes.");
+            }
+        }
+        shellKill(args) {
+            if (args.length === 0) {
+                _StdOut.putText("Usage: kill <pid>  Please supply a PID.");
+            }
+            else {
+                var pid = parseInt(args[0]);
+                if (isNaN(pid)) {
+                    _StdOut.putText("Invalid PID. Please enter a valid PID.");
+                }
+                else {
+                    if (_MemoryManager.doesProcessExist(pid)) {
+                        _MemoryManager.killProcess(pid);
+                        _StdOut.putText("Process " + pid + " terminated.");
+                    }
+                    else {
+                        _StdOut.putText("Process does not exist.");
+                    }
+                }
+            }
+        }
+        shellKillAll(args) {
+            var processes = _MemoryManager.getAllRunningProcesses();
+            for (var process in processes) {
+                _MemoryManager.killProcess(processes[process]);
+            }
+            _StdOut.putText("All processes terminated.");
+        }
+        shellQuantum(args) {
+            if (args.length === 0) {
+                _StdOut.putText("Usage: quantum <int>  Please supply a quantum.");
+            }
+            else {
+                var quantum = parseInt(args[0]);
+                if (isNaN(quantum)) {
+                    _StdOut.putText("Invalid quantum. Please enter a valid quantum.");
+                }
+                else if (quantum <= 0) {
+                    _StdOut.putText("Quantum must be greater than 0.");
+                }
+                else {
+                    _CpuScheduler.setQuantum(quantum);
+                    _StdOut.putText("Quantum set to " + quantum + ".");
+                }
             }
         }
     }
