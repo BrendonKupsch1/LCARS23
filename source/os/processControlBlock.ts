@@ -13,6 +13,7 @@ module TSOS {
         public baseRegister : number;
         public limitRegister : number;
         public isInMemory : boolean;
+        public memSegment: number; // if in memory, hold segment of 0, 1, or 2
 
 
         static currentProcessID : number = 0;
@@ -29,6 +30,7 @@ module TSOS {
             this.baseRegister = -1;
             this.limitRegister = -1;
             this.isInMemory = false;
+            this.memSegment = -1;
         }
 
         public update(pc: number, acc: number, XReg: number, YReg: number, ZFlag: number) {
