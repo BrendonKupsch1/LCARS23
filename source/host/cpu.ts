@@ -84,7 +84,7 @@ module TSOS {
                 _CpuScheduler.incrementCounter();
 
                 // kept getting a null error with regards to the currentPCB, so I made a copy of it to hold its value (this is not great, but it works)
-                //var Hold_currentPCB = this.currentPCB;
+                var Hold_currentPCB = this.currentPCB;
 
                 switch(this.instruction) {
                     case 'A9': // load the accumulator with a constant
@@ -139,7 +139,7 @@ module TSOS {
             if (this.PC > 256) {
                 this.PC = this.PC % 256;
             }
-            
+            this.currentPCB = Hold_currentPCB;
             this.currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
 
             // stop executing if single step is true

@@ -24,8 +24,10 @@ var TSOS;
             // Initialize standard input and output to the _Console.
             _StdIn = _Console;
             _StdOut = _Console;
-            // Initialize the memory
+            // Initialize the CPU scheduler, dispatcher, and memory manager
             _MemoryManager = new TSOS.MemoryManager();
+            _CpuScheduler = new TSOS.CpuScheduler();
+            _CpuDispatcher = new TSOS.CpuDispatcher();
             // Load the Keyboard Device Driver
             this.krnTrace("Loading the keyboard device driver.");
             _krnKeyboardDriver = new TSOS.DeviceDriverKeyboard(); // Construct it.
@@ -63,6 +65,7 @@ var TSOS;
                This, on the other hand, is the clock pulse from the hardware / VM / host that tells the kernel
                that it has to look for interrupts and process them if it finds any.
             */
+            _CpuScheduler.schedule();
             // Check for an interrupt, if there are any. Page 560
             if (_KernelInterruptQueue.getSize() > 0) {
                 // Process the first interrupt on the interrupt queue.

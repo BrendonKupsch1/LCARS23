@@ -24,9 +24,9 @@ module TSOS {
                 _MemoryManager.readyQueue.enqueue(_CpuScheduler.executingPCB);
                 TSOS.Control.updatePcbDisplay(false, _CpuScheduler.executingPCB);
                 // get next process and update current process
-                var NextProcess = _MemoryManager.readyQueue.dequeue();
-            _CpuScheduler.executingPCB = nextProcess;
-            _CPU.loadNewProcess(_CpuScheduler.executingPCB);
+                var nextProcess = _MemoryManager.readyQueue.dequeue();
+                _CpuScheduler.executingPCB = nextProcess;
+                _CPU.loadNewProcess(_CpuScheduler.executingPCB);
             }
             else {
                 alert("Ready queue is empty.")
