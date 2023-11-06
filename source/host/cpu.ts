@@ -139,6 +139,8 @@ module TSOS {
             if (this.PC > 256) {
                 this.PC = this.PC % 256;
             }
+
+
             this.currentPCB = Hold_currentPCB;
             this.currentPCB.update(this.PC, this.Acc, this.Xreg, this.Yreg, this.Zflag);
 

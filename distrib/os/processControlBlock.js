@@ -13,6 +13,8 @@ var TSOS;
         limitRegister;
         isInMemory;
         memSegment; // if in memory, hold segment of 0, 1, or 2
+        waitTime;
+        turnAroundTime;
         static currentProcessID = 0;
         constructor(priority) {
             this.priotrity = priority;
@@ -27,7 +29,10 @@ var TSOS;
             this.limitRegister = -1;
             this.isInMemory = false;
             this.memSegment = -1;
+            this.waitTime = 0;
+            this.turnAroundTime = 0;
         }
+        // used by CPU to update the PCB
         update(pc, acc, XReg, YReg, ZFlag) {
             this.programCounter = pc;
             this.acc = acc;

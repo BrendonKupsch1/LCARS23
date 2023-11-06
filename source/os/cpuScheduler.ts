@@ -87,5 +87,11 @@ module TSOS {
             this.scheduleMode = mode;
         }
 
+        /*
+
+        public getTurnaroundTime(): number {
+            if (this.)
+        }
+        */
     }
 }
