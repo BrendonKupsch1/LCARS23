@@ -15,6 +15,7 @@ var TSOS;
         memSegment; // if in memory, hold segment of 0, 1, or 2
         waitTime;
         turnAroundTime;
+        LastSleepCycle;
         static currentProcessID = 0;
         constructor(priority) {
             this.priotrity = priority;
