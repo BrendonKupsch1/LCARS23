@@ -34,7 +34,7 @@ var TSOS;
             }
         }
         scheduleRoundRobin() {
-            if (this.executingPCB === null && _MemoryManager.readyQueue.getSize() > 0) {
+            if ((this.executingPCB === null || this.executingPCB.processState === "Terminated") && _MemoryManager.readyQueue.getSize() > 0) {
                 this.executingPCB = _MemoryManager.readyQueue.dequeue();
                 _CPU.loadNewProcess(this.executingPCB);
             }

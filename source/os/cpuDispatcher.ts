@@ -13,14 +13,14 @@ module TSOS {
         }
 
         public contextSwitch() {
-            if (_MemoryManager.readyQueue.getSize() > 0 && _CPU.currentPCB === null) {
+            if (_MemoryManager.readyQueue.getSize() > 0 && (_CPU.currentPCB === null || _CPU.currentPCB.processState === "Terminated")) {
                 var nextProcess = _MemoryManager.readyQueue.dequeue();
                 _CpuScheduler.executingPCB = nextProcess;
                 _CPU.loadNewProcess(_CpuScheduler.executingPCB);
             }
             else if (_MemoryManager.readyQueue.getSize() > 0) {
                 // if process is executing, put it in the ready queue and change state to ready
-                _CpuScheduler.executingPCB.processState = "ready";
+                _CpuScheduler.executingPCB.processState = "Ready";
                 _MemoryManager.readyQueue.enqueue(_CpuScheduler.executingPCB);
                 TSOS.Control.updatePcbDisplay(false, _CpuScheduler.executingPCB);
                 // get next process and update current process

@@ -160,8 +160,8 @@ var TSOS;
                     `<td> ${_MemoryManager.residentList[i].baseRegister.toString()} </td>` +
                     `<td> ${_MemoryManager.residentList[i].limitRegister.toString()} </td>` +
                     `<td> ${_MemoryManager.residentList[i].memSegment} </td>` +
-                    '<td> ${ } </td>' +
-                    '<td> ${ } </td>' +
+                    `<td> ${_MemoryManager.getWaitTime.toString()} </td>` +
+                    `<td> ${_MemoryManager.getTurnaroundTime.toString()} </td>` +
                     "</tr>";
             }
             tableBody += "</tbody>";

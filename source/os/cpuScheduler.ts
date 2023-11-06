@@ -23,7 +23,7 @@ module TSOS {
         }
 
 
-        public getQuantum(q: number): void {
+        public getQuantum(q: number) {
             this.quantum = q;
         }
 
@@ -43,7 +43,7 @@ module TSOS {
         }
 
         public scheduleRoundRobin(): void {
-            if (this.executingPCB === null && _MemoryManager.readyQueue.getSize() > 0) {
+            if ((this.executingPCB === null || this.executingPCB.processState === "Terminated") && _MemoryManager.readyQueue.getSize() > 0) {
                 this.executingPCB = _MemoryManager.readyQueue.dequeue();
                 _CPU.loadNewProcess(this.executingPCB);
             }
@@ -86,12 +86,5 @@ module TSOS {
         public setScheduleMode(mode: string): void {
             this.scheduleMode = mode;
         }
-
-        /*
-
-        public getTurnaroundTime(): number {
-            if (this.)
-        }
-        */
     }
 }
