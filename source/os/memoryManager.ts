@@ -109,7 +109,7 @@ module TSOS {
             return processes;
         }
 
-        
+        /*
         public getWaitTime(pid: number): number {
             var pcb = this.residentList[pid];
             if (pcb.processState === "Ready") {
@@ -123,6 +123,7 @@ module TSOS {
         public getTurnAroundTime(pid: number): number {
             
         }
+        */
 
     }
 }

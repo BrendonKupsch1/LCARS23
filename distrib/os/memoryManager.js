@@ -91,15 +91,6 @@ var TSOS;
             }
             return processes;
         }
-        getWaitTime(pid) {
-            var pcb = this.residentList[pid];
-            if (pcb.processState === "Ready") {
-                for (var i = 0; i <= 6; i++) {
-                }
-            }
-        }
-        getTurnAroundTime(pid) {
-        }
     }
     TSOS.MemoryManager = MemoryManager;
 })(TSOS || (TSOS = {}));
