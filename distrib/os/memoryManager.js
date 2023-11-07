@@ -21,6 +21,7 @@ var TSOS;
             var pcb = new TSOS.ProcessControlBlock(priority);
             this.residentList[pcb.processID] = pcb;
             pcb.processState = "Resident";
+            pcb.loadCycle = _OSclock;
             this.allocateMemory(pcb, program);
             TSOS.Control.updatePcbDisplay(true, pcb);
             return pcb.processID;

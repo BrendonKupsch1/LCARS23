@@ -67,6 +67,7 @@ module TSOS {
             for (var i = 0; i < _MemoryManager.residentList.length; i++) {
                 var pcb = _MemoryManager.residentList[i];
                 pcb.processState = "Ready";
+                pcb.lastSleepCycle = _OSclock;
                 TSOS.Control.updatePcbDisplay(false, pcb);
                 _MemoryManager.readyQueue.enqueue(pcb);
             }
@@ -214,6 +215,7 @@ module TSOS {
 
         private breakSystemCall() {
             this.currentPCB.processState = "Terminated";
+            this.currentPCB.turnAroundTime = _OSclock - this.currentPCB.loadCycle;
             TSOS.Control.updatePcbDisplay(false, this.currentPCB);
             _MemoryManager.deallocateMemory(this.currentPCB);
             TSOS.Control.updateMemoryDisplay();

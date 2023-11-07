@@ -178,8 +178,8 @@ module TSOS {
                     `<td> ${_MemoryManager.residentList[i].baseRegister.toString()} </td>` +
                     `<td> ${_MemoryManager.residentList[i].limitRegister.toString()} </td>` +
                     `<td> ${_MemoryManager.residentList[i].memSegment} </td>` +
-                    // `<td> ${_MemoryManager.getWaitTime.toString()} </td>` +
-                    // `<td> ${_MemoryManager.getTurnaroundTime.toString()} </td>` +
+                    `<td> ${_MemoryManager.residentList[i].waitTime} </td>` +
+                    `<td> ${_MemoryManager.residentList[i].turnAroundTime} </td>` +
                     "</tr>";
             }
             tableBody += "</tbody>";

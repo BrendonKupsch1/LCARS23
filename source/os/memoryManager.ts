@@ -30,6 +30,7 @@ module TSOS {
             var pcb = new ProcessControlBlock(priority);
             this.residentList[pcb.processID] = pcb;
             pcb.processState = "Resident";
+            pcb.loadCycle = _OSclock;
             this.allocateMemory(pcb, program);
             TSOS.Control.updatePcbDisplay(true, pcb);
             return pcb.processID;
@@ -63,10 +64,8 @@ module TSOS {
                     }
                     _Memory.setByte(pcb.baseRegister + i, code);
                 }
-
             }
             TSOS.Control.updateMemoryDisplay();
-
         }
 
         public deallocateMemory(pcb: TSOS.ProcessControlBlock): void {
