@@ -97,7 +97,7 @@ module TSOS {
             }
         }
 
-        // needs testing
+        // I need to add disk along with memory for 'Location'
         public static initPcbDisplay(): void {
             var table = <HTMLTableElement> document.getElementById("pcbTable");
             var headers = ['PID', 'State', 'PC', 'IR', 'ACC', 'X', 'Y', 'Z', 'Base', 'Limit', 'Location', 'Wait', 'Turnaround'];
