@@ -63,6 +63,7 @@ var _CPU: TSOS.Cpu;
 var _Memory: TSOS.Memory; // = new TSOS.Memory();
 var _MemorySize: number = 768;
 var _MemoryAccessor: TSOS.MemoryAccessor; // = new TSOS.MemoryAccessor();
+var _Disk: TSOS.Disk; // = new TSOS.Disk();
 
 // software
 var _MemoryManager: any	=	null; 

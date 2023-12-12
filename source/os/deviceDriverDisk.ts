@@ -20,6 +20,9 @@ module TSOS {
 
         public format() {
             // format the disk
+            _Kernel.krnTrace("Formatting disk.");
+            var block = this.createBlock();
+
 
 
         }
