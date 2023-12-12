@@ -12,7 +12,7 @@
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
 const APP_NAME: string    = "LCARS23";   // 'cause Bob and I were at a loss for a better name.
-const APP_VERSION: string = "1.3D";   // What did you expect?
+const APP_VERSION: string = "1.4A";   // What did you expect?
 
 const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 1000 = 1 second.
 
@@ -64,17 +64,20 @@ var _Memory: TSOS.Memory; // = new TSOS.Memory();
 var _MemorySize: number = 768;
 var _MemoryAccessor: TSOS.MemoryAccessor; // = new TSOS.MemoryAccessor();
 var _Disk: TSOS.Disk; // = new TSOS.Disk();
+var _isDiskFormat: boolean = false;
 
 // software
 var _MemoryManager: any	=	null; 
 var _CpuScheduler: TSOS.CpuScheduler; // = new TSOS.CpuScheduler();
 var _CpuDispatcher: TSOS.CpuDispatcher; // = new TSOS.CpuDispatcher();
+var _CpuSwapper: TSOS.CpuSwapper; // = new TSOS.CpuSwapper();
 
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode: boolean = false;
 
 // Global Device Driver Objects - page 12
 var _krnKeyboardDriver: TSOS.DeviceDriverKeyboard  = null;
+var _krnDiskDriver: TSOS.DeviceDriverDisk = null;
 
 var _hardwareClockID: number = null;
 

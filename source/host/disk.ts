@@ -13,9 +13,10 @@ module TSOS {
         public numSectors: number;
         public numBlocks: number;
 
-    constructor() {
-        this.numTracks = 4;
-        this.numSectors = 8;
-        this.numBlocks = 8;
+        constructor() {
+            this.numTracks = 4;
+            this.numSectors = 8;
+            this.numBlocks = 8;
+        }
     }
 }
