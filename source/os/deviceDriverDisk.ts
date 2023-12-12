@@ -87,12 +87,22 @@ module TSOS {
 
         }
 
-        
+        public copyFile(fileName: string, newFileName: string): boolean {
+            // create new file then write existing file contents to new file
 
+        }
+
+        public renameFile(fileName: string, newFileName: string): boolean {
+            // write over existing file name with new file name
+
+        }
+
+        public listFiles(): string[] {
+            // list all files on disk
+            var fileList = [];
+
+
+            return fileList;
+        }
     }
-
-
-
-
-
 }
