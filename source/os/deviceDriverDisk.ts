@@ -69,9 +69,41 @@ module TSOS {
 
         }
         
-        public readFile(): string {
+        public readFile(fileName: string, fileLoc: string, fileData: string, hexFile: boolean): string {
             // read file data from data block
-
+            if (hexFile == undefined) {
+                hexFile = false;
+            }
+            if (fileData == undefined) {
+                fileData = "";
+            }
+            var fileDataTSB;
+            if (fileName == undefined && fileLoc != undefined) {
+                fileDataTSB = fileLoc;
+            }
+            else {
+                fileDataTSB = this.getFileDataTSB(fileName);
+            }
+            if (fileDataTSB != null) {
+                var fileDataArr = sessionStorage.getItem(fileDataTSB);
+                let splitFileDataArr = fileDataArr.split(" ");
+                for (var i = 4; i < splitFileDataArr.length; i++) {
+                    if (hexFile) {
+                        fileData += splitFileDataArr[i];
+                    }
+                    else {
+                        fileData += String.fromCharCode(parseInt(splitFileDataArr[i], 16));
+                    }
+                }
+                if (splitFileDataArr[1] != "-") {
+                    var nextLoc = splitFileDataArr[1] + "," + splitFileDataArr[2] + "," + splitFileDataArr[3];
+                    return this.readFile(undefined, nextLoc, fileData, hexFile);
+                }
+                return fileData;
+            }
+            else {
+                return null;
+            }
         }
 
         public writeFile(): boolean {
