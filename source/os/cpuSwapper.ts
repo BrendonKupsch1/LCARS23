@@ -8,6 +8,16 @@
 module TSOS {
 
     export class CpuSwapper {
+        public rollOutData: string;
+        public rollInData: string;
+
+        constructor() {
+            this.rollOutData = "";
+            this.rollInData = "";
+        }
+
+
+
 
     }
 }
