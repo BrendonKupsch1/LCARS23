@@ -57,11 +57,17 @@ module TSOS {
 
         public rollOut(memoryPCB: ProcessControlBlock) {
             // roll out process to disk
-
+            for (var i = 0; i < (memoryPCB.limitRegister - memoryPCB.baseRegister); i++) {
+                this.rollOutData += _MemoryAccessor.read(memoryPCB, i) + " ";
+            }
+            this.rollOutData.trim();
+            _Memory.clearRange(memoryPCB.baseRegister, memoryPCB.limitRegister);
+            memoryPCB.memSegment = -1;
+            memoryPCB.baseRegister = -1;
+            memoryPCB.limitRegister = -1;
+            _krnDiskDriver.createSwapFile(memoryPCB.processID, this.rollOutData);
+            this.rollOutData = "";
+            TSOS.Control.updateDiskDisplay();
         }
-
-
-
-
     }
 }

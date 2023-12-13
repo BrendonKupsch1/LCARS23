@@ -55,8 +55,20 @@ module TSOS {
 
         public createSwapFile(pid: number, fileData: string): boolean {
             var fileName = "@swap" + pid;
-
-            
+            if (this.createFile(fileName)) {
+                if (this.writeFile(fileName, fileData, true)) {
+                    alert("Swap file " + fileName + " created.");
+                }
+                else {
+                    alert("Writing to file " + fileName + " failed.");
+                    return false;
+                }
+            }
+            else {
+                alert("Creating file " + fileName + " failed.");
+                return false;
+            }
+            return true;
         }
 
         public nextDirectoryEntry(): string {
@@ -106,9 +118,68 @@ module TSOS {
             }
         }
 
-        public writeFile(): boolean {
+        public writeFile(fileName: string, fileData: string, hexFile?: boolean, nextDataTSB?: string): boolean {
             // write file data to data block
+            // find tsb of directory entry with file name
+            // go into tsb to get just the fileName
+            // write that data to the data tsb
 
+            var fileDataTSB = this.getFileDataTSB(fileName);
+            if (fileDataTSB != null) {
+                var dataBlock = this.createBlock();
+                if (fileData.length <= 60) {
+                    for (var i = 0; i < fileData.length; i++) {
+                        if (hexFile) {
+                            dataBlock[i + 4] = fileData.charAt(i);
+                        }
+                        else {
+                            dataBlock[i + 4] = this.decimalToHex(fileData.charCodeAt(i));
+                        }
+                    }
+                    dataBlock[0] = "1";
+                    var newDataLoc;
+                    if (nextDataTSB != undefined) {
+                        newDataLoc = nextDataTSB;
+                    }
+                    else {
+                        newDataLoc = fileDataTSB;
+                    }
+                    sessionStorage.setItem(newDataLoc, dataBlock.join(" "));
+                }
+                else {
+                    var newDataBlock = this.createBlock();
+                    for (var j = 0; j < 60; j++) {
+                        if (hexFile) {
+                            newDataBlock[j + 4] = fileData.charAt(j);
+                        }
+                        else {
+                            newDataBlock[j + 4] = this.decimalToHex(fileData.charCodeAt(j));
+                        }
+                    }
+                    newDataBlock[0] = "1";
+                    var newDataLoc;
+                    if (nextDataTSB != undefined) {
+                        newDataLoc = nextDataTSB;
+                    }
+                    else {
+                        newDataLoc = fileDataTSB;
+                    }
+                    sessionStorage.setItem(newDataLoc, newDataBlock.join(" "));
+                    var nextDataTSB = this.nextDataEntry();
+                    var nextSplit = nextDataTSB.split(",");
+                    var tempStorage = sessionStorage.getItem(newDataLoc).split(" ");
+                    tempStorage[1] = nextSplit[0];
+                    tempStorage[2] = nextSplit[1];
+                    tempStorage[3] = nextSplit[2];
+                    sessionStorage.setItem(newDataLoc, tempStorage.join(" "));
+                    var dataStillLeft = fileData.substring(60, fileData.length);
+                    return this.writeFile(fileName, dataStillLeft, hexFile, nextDataTSB);
+                }
+                return true;
+            }
+            else {
+                return false;
+            }
         }
 
         public getFileDataTSB(fileName: string): string {
@@ -152,6 +223,14 @@ module TSOS {
 
 
             return fileList;
+        }
+
+        public decimalToHex(decimal: number): string {
+            return decimal.toString(16);
+        }
+
+        public hexToDecimal(hex: string): number {
+            return parseInt(hex, 16);
         }
     }
 }
