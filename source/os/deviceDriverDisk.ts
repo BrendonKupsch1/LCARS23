@@ -51,6 +51,28 @@ module TSOS {
         public createFile(fileName: string): boolean {
             // create a file starting at directory block 001
             
+            var fileTSB = this.getFileTSB(fileName);
+            if (fileTSB != null) {
+                return false;
+            }
+            else {
+                var directoryEntry = this.nextDirectoryEntry();
+                var dataEntry = this.nextDataEntry();
+                var directoryEntryData = this.createBlock();
+                var dataEntryData = this.createBlock();
+                directoryEntryData[0] = "1";
+                dataEntryData[0] = "1";
+                var dataEntrySplit = dataEntry.split(",");
+                directoryEntryData[1] = dataEntrySplit[0];
+                directoryEntryData[2] = dataEntrySplit[1];
+                directoryEntryData[3] = dataEntrySplit[2];
+                for (var i = 0; i < fileName.length; i++) {
+                    directoryEntryData[i + 4] = this.decimalToHex(fileName.charCodeAt(i));
+                }
+                sessionStorage.setItem(directoryEntry, directoryEntryData.join(" "));
+                sessionStorage.setItem(dataEntry, dataEntryData.join(" "));
+                return true;
+            }
         }
 
         public createSwapFile(pid: number, fileData: string): boolean {
