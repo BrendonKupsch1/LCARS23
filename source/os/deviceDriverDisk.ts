@@ -95,12 +95,27 @@ module TSOS {
 
         public nextDirectoryEntry(): string {
             // finds next directory entry to store filename that is being created
-
+            for (var i = 0; i < _Disk.numSectors; i++) {
+                for (var j = 0; j < _Disk.numTracks; j++) {
+                    var data = sessionStorage.getItem("0," + i + "," + j).split(" ");
+                    if (data[0] == "0") {
+                        return "0," + i + "," + j;
+                    }
+                }
+            }
+            return null;
         }
 
         public nextDataEntry(): string {
             // finds next data entry to store file data
-
+            for (var i = 1; i < _Disk.numSectors; i++) {
+                for (var j = 0; j < _Disk.numTracks; j++) {
+                    var data = sessionStorage.getItem("0," + i + "," + j).split(" ");
+                    if (data[0] == "0") {
+                        return "0," + i + "," + j;
+                    }
+                }
+            }
         }
         
         public readFile(fileName: string, fileLoc: string, fileData: string, hexFile: boolean): string {
