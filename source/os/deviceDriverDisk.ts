@@ -98,7 +98,7 @@ module TSOS {
             for (var i = 0; i < _Disk.numSectors; i++) {
                 for (var j = 0; j < _Disk.numTracks; j++) {
                     var data = sessionStorage.getItem("0," + i + "," + j).split(" ");
-                    if (data[0] == "0") {
+                    if (data[0] === "0") {
                         return "0," + i + "," + j;
                     }
                 }
@@ -108,14 +108,17 @@ module TSOS {
 
         public nextDataEntry(): string {
             // finds next data entry to store file data
-            for (var i = 1; i < _Disk.numSectors; i++) {
-                for (var j = 0; j < _Disk.numTracks; j++) {
-                    var data = sessionStorage.getItem("0," + i + "," + j).split(" ");
-                    if (data[0] == "0") {
-                        return "0," + i + "," + j;
+            for (var i = 1; i < _Disk.numTracks; i++) {
+                for (var j = 0; j < _Disk.numSectors; j++) {
+                    for (var k = 0; k < _Disk.numBlocks; k++) {
+                        var data = sessionStorage.getItem(i + "," + j + "," + k);
+                        if (data[0] === "0") {
+                            return i + "," + j + "," + k;
+                        }
                     }
                 }
             }
+            return null;
         }
         
         public readFile(fileName: string, fileLoc: string, fileData: string, hexFile: boolean): string {
