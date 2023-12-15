@@ -67,7 +67,6 @@ module TSOS {
             for (var i = 0; i < _MemoryManager.residentList.length; i++) {
                 var pcb = _MemoryManager.residentList[i];
                 pcb.processState = "Ready";
-                pcb.lastSleepCycle = _OSclock;
                 TSOS.Control.updatePcbDisplay(false, pcb);
                 _MemoryManager.readyQueue.enqueue(pcb);
             }

@@ -24,15 +24,22 @@ var TSOS;
             // Initialize standard input and output to the _Console.
             _StdIn = _Console;
             _StdOut = _Console;
-            // Initialize the CPU scheduler, dispatcher, and memory manager
+            // Initialize the CPU scheduler, dispatcher, memory manager, CPU swapper, and and disk
             _MemoryManager = new TSOS.MemoryManager();
             _CpuScheduler = new TSOS.CpuScheduler();
             _CpuDispatcher = new TSOS.CpuDispatcher();
+            _CpuSwapper = new TSOS.CpuSwapper();
+            _Disk = new TSOS.Disk();
             // Load the Keyboard Device Driver
             this.krnTrace("Loading the keyboard device driver.");
             _krnKeyboardDriver = new TSOS.DeviceDriverKeyboard(); // Construct it.
             _krnKeyboardDriver.driverEntry(); // Call the driverEntry() initialization routine.
             this.krnTrace(_krnKeyboardDriver.status);
+            // load the Disk Device Driver
+            this.krnTrace("Loading the disk device driver.");
+            _krnDiskDriver = new TSOS.DeviceDriverDisk();
+            _krnDiskDriver.driverEntry();
+            this.krnTrace(_krnDiskDriver.status);
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");
             this.krnEnableInterrupts();

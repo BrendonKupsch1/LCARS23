@@ -44,7 +44,12 @@ module TSOS {
         public createBlock(): string[] {
             // creates block with array size of 64
             let block = new Array(64);
-
+            for (var i = 0; i < 4; i++) {
+                block[i] = "0";
+            }
+            for (var j = 0; j < block.length; j++) {
+                block[j] = "-";
+            }
             return block;
         }
 
@@ -244,7 +249,6 @@ module TSOS {
                     if (thisFileName == fileName) {
                         if (usedBit == "1") {
                             return "0," + i + "," + j;
-                            break;
                         }
                     }
                     else if (usedBit == "0") {

@@ -39,6 +39,12 @@ var TSOS;
         createBlock() {
             // creates block with array size of 64
             let block = new Array(64);
+            for (var i = 0; i < 4; i++) {
+                block[i] = "0";
+            }
+            for (var j = 0; j < block.length; j++) {
+                block[j] = "-";
+            }
             return block;
         }
         createFile(fileName) {
@@ -211,7 +217,7 @@ var TSOS;
             // takes fileName and returns the t,s,b of where the data in the file is stored
             let tsbFile = this.getFileTSB(fileName);
             if (tsbFile != null) {
-                let tsbFileData = sessionStorage.getItem(tsbFile).split(" ");
+                let tsbFileData = sessionStorage.getItem(tsbFile);
                 return tsbFileData[1] + "," + tsbFileData[2] + "," + tsbFileData[3];
             }
             else {
@@ -228,7 +234,6 @@ var TSOS;
                     if (thisFileName == fileName) {
                         if (usedBit == "1") {
                             return "0," + i + "," + j;
-                            break;
                         }
                     }
                     else if (usedBit == "0") {
