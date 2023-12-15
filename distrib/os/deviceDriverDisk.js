@@ -225,6 +225,10 @@ var TSOS;
             }
         }
         getFileTSB(fileName) {
+            // if sessionStorage is empty, then return null
+            if (sessionStorage.length == 0) {
+                return null;
+            }
             // takes fileName and returns the t,s,b of where the file is stored
             for (let i = 0; i < _Disk.numSectors; i++) {
                 for (let j = 0; j < _Disk.numBlocks; j++) {
