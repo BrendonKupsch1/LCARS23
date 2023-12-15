@@ -25,15 +25,16 @@ module TSOS {
             else if (_MemoryManager.readyQueue.getSize() > 0) {
                 // if process is executing, put it in the ready queue and change state to ready
                 _CpuScheduler.executingPCB.processState = "Ready";
-                // the line below is for wait and turnaround time
-                _CpuScheduler.executingPCB.lastSleepCycle = _OSclock;
                 _MemoryManager.readyQueue.enqueue(_CpuScheduler.executingPCB);
-                
                 TSOS.Control.updatePcbDisplay(false, _CpuScheduler.executingPCB);
                 // get next process and update current process
                 var nextProcess = _MemoryManager.readyQueue.dequeue();
-                // the line below is for wait and turnaround time
-                nextProcess.waitTime += (_OSclock - nextProcess.lastSleepCycle);
+                if (!nextProcess.isInMemory) {
+                    var pcbToSwap = _MemoryManager.readyQueue.getLast();
+                    var destinationSegment = pcbToSwap.memSegment;
+                    _CpuSwapper.rollOut(pcbToSwap);
+                    _CpuSwapper.rollIn(nextProcess, destinationSegment);
+                }
                 _CpuScheduler.executingPCB = nextProcess;
                 _CPU.loadNewProcess(_CpuScheduler.executingPCB);
             }

@@ -37,6 +37,9 @@ var TSOS;
             }
             return retVal;
         }
+        getLast() {
+            return this.q[this.q.length - 1];
+        }
     }
     TSOS.Queue = Queue;
 })(TSOS || (TSOS = {}));

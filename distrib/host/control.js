@@ -38,6 +38,7 @@ var TSOS;
             this.initMemoryDisplay();
             this.initCpuDisplay();
             this.initPcbDisplay();
+            this.initDiskDisplay();
             // Check for our testing and enrichment core, which
             // may be referenced here (from index.html) as function Glados().
             if (typeof Glados === "function") {
@@ -166,6 +167,17 @@ var TSOS;
             }
             tableBody += "</tbody>";
             table.innerHTML = tableBody;
+        }
+        static initDiskDisplay() {
+            var table = document.getElementById("diskTable");
+            var headers = ['T:S:B', 'Used', 'Next', 'Data'];
+            var body = ['--', '--', '--', '--'];
+            var headerRow = table.insertRow();
+            var bodyRow = table.insertRow();
+            for (var i = 0; i < headers.length; i++) {
+                headerRow.insertCell(i).textContent = headers[i];
+                bodyRow.insertCell(i).textContent = body[i];
+            }
         }
         static updateDiskDisplay() {
             var table = document.getElementById("diskTable");

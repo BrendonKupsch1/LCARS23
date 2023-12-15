@@ -46,6 +46,7 @@ module TSOS {
             this.initMemoryDisplay();
             this.initCpuDisplay();
             this.initPcbDisplay();
+            this.initDiskDisplay();
 
             // Check for our testing and enrichment core, which
             // may be referenced here (from index.html) as function Glados().
@@ -184,6 +185,18 @@ module TSOS {
             }
             tableBody += "</tbody>";
             table.innerHTML = tableBody;
+        }
+
+        public static initDiskDisplay(): void {
+            var table = <HTMLTableElement> document.getElementById("diskTable");
+            var headers = ['T:S:B', 'Used', 'Next', 'Data'];
+            var body = ['--', '--', '--', '--'];
+            var headerRow = table.insertRow();
+            var bodyRow = table.insertRow();
+            for (var i = 0; i < headers.length; i++) {
+                headerRow.insertCell(i).textContent = headers[i];
+                bodyRow.insertCell(i).textContent = body[i];
+            }
         }
 
         public static updateDiskDisplay(): void {
