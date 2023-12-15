@@ -90,10 +90,18 @@ var TSOS;
             return true;
         }
         nextDirectoryEntry() {
+            // base case: sessionStorage is empty
+            if (sessionStorage.length == 0) {
+                return "0,0,0";
+            }
             // finds next directory entry to store filename that is being created
             for (var i = 0; i < _Disk.numSectors; i++) {
                 for (var j = 0; j < _Disk.numTracks; j++) {
-                    var data = sessionStorage.getItem("0," + i + "," + j).split(" ");
+                    var unsplitData = sessionStorage.getItem("0," + i + "," + j);
+                    if (unsplitData == null) {
+                        return "0," + i + "," + j;
+                    }
+                    var data = unsplitData.split(" ");
                     if (data[0] === "0") {
                         return "0," + i + "," + j;
                     }
@@ -102,11 +110,19 @@ var TSOS;
             return null;
         }
         nextDataEntry() {
+            // base case: sessionStorage is empty
+            if (sessionStorage.length == 0) {
+                return "0,0,0";
+            }
             // finds next data entry to store file data
             for (var i = 1; i < _Disk.numTracks; i++) {
                 for (var j = 0; j < _Disk.numSectors; j++) {
                     for (var k = 0; k < _Disk.numBlocks; k++) {
-                        var data = sessionStorage.getItem(i + "," + j + "," + k);
+                        var unsplitData = sessionStorage.getItem("0," + i + "," + j);
+                        if (unsplitData == null) {
+                            return "0," + i + "," + j;
+                        }
+                        var data = unsplitData.split(" ");
                         if (data[0] === "0") {
                             return i + "," + j + "," + k;
                         }
@@ -225,14 +241,18 @@ var TSOS;
             }
         }
         getFileTSB(fileName) {
-            // if sessionStorage is empty, then return null
+            //if sessionStorage is empty, then return null
             if (sessionStorage.length == 0) {
                 return null;
             }
             // takes fileName and returns the t,s,b of where the file is stored
             for (let i = 0; i < _Disk.numSectors; i++) {
                 for (let j = 0; j < _Disk.numBlocks; j++) {
-                    let data = sessionStorage.getItem("0," + i + "," + j).split(" ");
+                    let unsplitData = sessionStorage.getItem("0," + i + "," + j);
+                    if (unsplitData == null) {
+                        return null;
+                    }
+                    let data = unsplitData.split(" ");
                     let usedBit = data[0];
                     let thisFileName = this.getFileName(data);
                     if (thisFileName == fileName) {

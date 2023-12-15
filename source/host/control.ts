@@ -206,15 +206,18 @@ module TSOS {
             for (var i = 0; i < _Disk.numTracks; i++) {
                 for (var j = 0; j < _Disk.numSectors; j++) {
                     for (var k = 0; k < _Disk.numBlocks; k++) {
-                        var data = sessionStorage.getItem(i + "," + j + "," + k).split(" ");
-                        var block = "";
-                        for (var l = 4; l < data.length; l++) {
-                            block += (data[l] + " ");
+                        var unsplitData = sessionStorage.getItem("0," + i + "," + j)
+						if(unsplitData != null){
+							var data = unsplitData.split(" ");
+							var block = "";
+							for (var l = 4; l < data.length; l++) {
+								block += (data[l] + " ");
+							}
+							block.trim();
+							tableBody += "<tr>" + `<td> ${i + ',' + j + ',' + k} </td>` +
+							`<td> ${data[0]} </td>` + `<td> ${data[1] + ',' + data[2] + ',' + data[3]} </td>` +
+							`<td> ${block} </td>`;
                         }
-                        block.trim();
-                        tableBody += "<tr>" + `<td> ${i + ',' + j + ',' + k} </td>` +
-                        `<td> ${data[0]} </td>` + `<td> ${data[1] + ',' + data[2] + ',' + data[3]} </td>` +
-                        `<td> ${block} </td>`;
                     }
                 }
             }
