@@ -2,13 +2,13 @@
 // add redalert command that flashes some part of the screen red
 // add maybe some more randomized commands to make labouseur laugh (maybe star trek food like gach, or rediculous ideas like tuvix)
 /* ------------
-   Shell.ts
+Shell.ts
 
-   The OS Shell - The "command line interface" (CLI) for the console.
+The OS Shell - The "command line interface" (CLI) for the console.
 
     Note: While fun and learning are the primary goals of all enrichment center activities,
-          serious injuries may occur when trying to write your own Operating System.
-   ------------ */
+        serious injuries may occur when trying to write your own Operating System.
+------------ */
 // TODO: Write a base class / prototype for system services and let Shell inherit from it.
 var TSOS;
 (function (TSOS) {
@@ -587,17 +587,65 @@ var TSOS;
             }
         }
         shellCopy(args) {
-            if (_IsDisk)
-                ;
-            /*
-            public shellTabTest1(args: string[]) {
-                _StdOut.putText("tabtest1");
+            if (_IsDiskFormat) {
+                var fileName = args[0];
+                var newFileName = args[1];
+                if (fileName === undefined || newFileName === undefined) {
+                    _StdOut.putText("Must provide a file name to copy a file.");
+                }
+                else {
+                    if (_krnDiskDriver.copyFile(fileName, newFileName)) {
+                        _StdOut.putText("File " + fileName + " copied to " + newFileName + ".");
+                        TSOS.Control.updateDiskDisplay();
+                    }
+                    else {
+                        _StdOut.putText("Errory copying files: either the first file name doesn't exist, or the second file name already exists.");
+                    }
+                }
             }
-    
-            public shellTabTest2(args: string[]) {
-                _StdOut.putText("tabtest2");
+            else {
+                _StdOut.putText("Disk must be formatted before files can be copied.");
             }
-            */
+        }
+        shellRename(args) {
+            if (_IsDiskFormat) {
+                var fileName = args[0];
+                var newFileName = args[1];
+                if (fileName == undefined || newFileName === undefined) {
+                    _StdOut.putText("Must provide a file name to rename a file.");
+                }
+                else {
+                    if (_krnDiskDriver.renameFile(fileName, newFileName)) {
+                        _StdOut.putText("File " + fileName + " renamed to " + newFileName + ".");
+                        TSOS.Control.updateDiskDisplay();
+                    }
+                    else {
+                        _StdOut.putText("File " + fileName + " does not exist.");
+                    }
+                }
+            }
+            else {
+                _StdOut.putText("Disk must be formatted before files can be renamed.");
+            }
+        }
+        shellLs(args) {
+            if (_IsDiskFormat) {
+                var files = _krnDiskDriver.listFiles();
+                if (files.length > 0) {
+                    _StdOut.putText("Files: ");
+                    _StdOut.advanceLine();
+                    for (var i = 0; i < files.length; i++) {
+                        _StdOut.putText(files[i]);
+                        _StdOut.advanceLine();
+                    }
+                }
+                else {
+                    _StdOut.putText("No files on disk.");
+                }
+            }
+            else {
+                _StdOut.putText("Disk must be formatted before files can be listed.");
+            }
         }
     }
     TSOS.Shell = Shell;
