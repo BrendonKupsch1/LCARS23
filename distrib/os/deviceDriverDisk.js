@@ -217,7 +217,7 @@ var TSOS;
             // takes fileName and returns the t,s,b of where the data in the file is stored
             let tsbFile = this.getFileTSB(fileName);
             if (tsbFile != null) {
-                let tsbFileData = sessionStorage.getItem(tsbFile);
+                let tsbFileData = sessionStorage.getItem(tsbFile).split(" ");
                 return tsbFileData[1] + "," + tsbFileData[2] + "," + tsbFileData[3];
             }
             else {
