@@ -99,7 +99,7 @@ module TSOS {
         }
 
         public nextDirectoryEntry(): string {
-            // base case: sessionStorage is empty
+			// base case: sessionStorage is empty
 			if (sessionStorage.length == 0){
 				return "0,0,0";
 			}
@@ -121,7 +121,7 @@ module TSOS {
         }
 
         public nextDataEntry(): string {
-            // base case: sessionStorage is empty
+			// base case: sessionStorage is empty
 			if (sessionStorage.length == 0){
 				return "0,0,0";
 			}
@@ -257,7 +257,7 @@ module TSOS {
         }
 
         public getFileTSB(fileName: string): string {
-            //if sessionStorage is empty, then return null
+			//if sessionStorage is empty, then return null
 			if (sessionStorage.length == 0){
 				return null
 			}

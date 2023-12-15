@@ -35,13 +35,11 @@ var TSOS;
             }
             _Memory.clearRange(diskPCB.baseRegister, diskPCB.limitRegister);
             for (var i = 0; i < ((diskPCB.limitRegister - diskPCB.baseRegister) * 2); i += 2) {
-                if (this.rollInData.length != null) {
-                    if (i < (this.rollInData.length - 2)) {
-                        writeByte = this.rollInData.charAt(i) + this.rollInData.charAt(i + 1);
-                        if (!((writeByte.charCodeAt(0) == 0) && (writeByte.charCodeAt(1) == 0))) {
-                            _MemoryAccessor.write(diskPCB, addressCount, writeByte);
-                            addressCount++;
-                        }
+                if (i < (this.rollInData.length - 2)) {
+                    writeByte = this.rollInData.charAt(i) + this.rollInData.charAt(i + 1);
+                    if (!((writeByte.charCodeAt(0) == 0) && (writeByte.charCodeAt(1) == 0))) {
+                        _MemoryAccessor.write(diskPCB, addressCount, writeByte);
+                        addressCount++;
                     }
                 }
             }
