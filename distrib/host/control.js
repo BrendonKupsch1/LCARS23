@@ -83,7 +83,7 @@ var TSOS;
                 bodyRow.insertCell(i).textContent = body[i];
             }
         }
-        // needs testing
+        // I need to add disk along with memory for 'Location'
         static initPcbDisplay() {
             var table = document.getElementById("pcbTable");
             var headers = ['PID', 'State', 'PC', 'IR', 'ACC', 'X', 'Y', 'Z', 'Base', 'Limit', 'Location', 'Wait', 'Turnaround'];
@@ -163,6 +163,28 @@ var TSOS;
                     `<td> ${_MemoryManager.residentList[i].waitTime} </td>` +
                     `<td> ${_MemoryManager.residentList[i].turnAroundTime} </td>` +
                     "</tr>";
+            }
+            tableBody += "</tbody>";
+            table.innerHTML = tableBody;
+        }
+        static updateDiskDisplay() {
+            var table = document.getElementById("diskTable");
+            var tableBody = "<tbody>" + "<tr>" + "<th>T:S:B</th><th>Used</th><th>Next</th><th>Data</th>" +
+                "</tr>";
+            for (var i = 0; i < _Disk.numTracks; i++) {
+                for (var j = 0; j < _Disk.numSectors; j++) {
+                    for (var k = 0; k < _Disk.numBlocks; k++) {
+                        var data = sessionStorage.getItem(i + "," + j + "," + k).split(" ");
+                        var block = "";
+                        for (var l = 4; l < data.length; l++) {
+                            block += (data[l] + " ");
+                        }
+                        block.trim();
+                        tableBody += "<tr>" + `<td> ${i + ',' + j + ',' + k} </td>` +
+                            `<td> ${data[0]} </td>` + `<td> ${data[1] + ',' + data[2] + ',' + data[3]} </td>` +
+                            `<td> ${block} </td>`;
+                    }
+                }
             }
             tableBody += "</tbody>";
             table.innerHTML = tableBody;

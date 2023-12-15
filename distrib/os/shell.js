@@ -428,6 +428,12 @@ var TSOS;
             if (proccesses.length === 0) {
                 _StdOut.putText("No running processes.");
             }
+            else {
+                _StdOut.putText("Running processes: ");
+                for (var process in proccesses) {
+                    _StdOut.putText(proccesses[process].processID + " ");
+                }
+            }
         }
         shellKill(args) {
             if (args.length === 0) {
@@ -473,6 +479,125 @@ var TSOS;
                     _StdOut.putText("Quantum set to " + quantum + ".");
                 }
             }
+        }
+        shellFormat(args) {
+            if (_CPU.isExecuting) {
+                _StdOut.putText("Cannot format disk while CPU is executing.");
+            }
+            else {
+                _krnDiskDriver.format();
+                _IsDiskFormat = true;
+                _StdOut.putText("Disk formatted.");
+            }
+        }
+        shellCreate(args) {
+            var fileName = args[0];
+            if (_IsDiskFormat) {
+                if (fileName === undefined) {
+                    _StdOut.putText("Must provide a file name to create a file.");
+                }
+                else if (_krnDiskDriver.createFile(fileName)) {
+                    _StdOut.putText("File " + fileName + " created.");
+                    TSOS.Control.updateDiskDisplay();
+                }
+                else {
+                    _StdOut.putText("File " + fileName + " already exists.");
+                }
+            }
+            else {
+                _StdOut.putText("Disk must be formatted before files can be created.");
+            }
+        }
+        shellRead(args) {
+            if (_IsDiskFormat) {
+                var fileName = args[0];
+                if (fileName === undefined) {
+                    _StdOut.putText("Must provide a file name to read a file.");
+                }
+                else {
+                    var fileData = _krnDiskDriver.readFile(fileName, undefined, undefined, undefined);
+                    if (fileData != null) {
+                        _StdOut.putText("Contents of file " + fileName + ": " + fileData);
+                    }
+                    else {
+                        _StdOut.putText("File " + fileName + " does not exist.");
+                    }
+                }
+            }
+            else {
+                _StdOut.putText("Disk must be formatted before files can be read.");
+            }
+        }
+        shellWrite(args) {
+            if (_IsDiskFormat) {
+                var fileName = args[0];
+                if (fileName === undefined) {
+                    _StdOut.putText("Must provide a file name to write to a file.");
+                }
+                else {
+                    var writeFirst = args[1];
+                    var writeLast = args[args.length - 1];
+                    var dataToWrite = "";
+                    if ((writeFirst.charAt(0) === "\"") && (writeLast.charAt(writeLast.length - 1) === "\"")) {
+                        if (args.length == 2) {
+                            dataToWrite = writeFirst.substring(1, (writeFirst.length - 1));
+                        }
+                        else {
+                            dataToWrite = writeFirst.substring(1, writeFirst.length) + " ";
+                            for (var i = 2; i < args.length; i++) {
+                                dataToWrite += args[i] + " ";
+                            }
+                            dataToWrite += writeLast.substring(0, writeLast.length - 1);
+                        }
+                        if (_krnDiskDriver.writeFile(fileName, dataToWrite)) {
+                            _StdOut.putText("File updated: " + fileName);
+                            TSOS.Control.updateDiskDisplay();
+                        }
+                        else {
+                            _StdOut.putText("File " + fileName + " does not exist.");
+                        }
+                    }
+                    else {
+                        _StdOut.putText("Must provide data to write to file.");
+                    }
+                }
+            }
+            else {
+                _StdOut.putText("Disk must be formatted before files can be written to.");
+            }
+        }
+        shellDelete(args) {
+            if (_IsDiskFormat) {
+                var fileName = args[0];
+                if (fileName === undefined) {
+                    _StdOut.putText("Must provide a file name to delete a file.");
+                }
+                else {
+                    if (_krnDiskDriver.deleteFile(fileName)) {
+                        _StdOut.putText("File " + fileName + " deleted.");
+                        TSOS.Control.updateDiskDisplay();
+                    }
+                    else {
+                        _StdOut.putText("File " + fileName + " does not exist.");
+                    }
+                }
+            }
+            else {
+                _StdOut.putText("Disk must be formatted before files can be deleted.");
+            }
+        }
+        shellCopy(args) {
+            if (_IsDisk)
+                ;
+            /*
+            public shellTabTest1(args: string[]) {
+                _StdOut.putText("tabtest1");
+            }
+    
+            public shellTabTest2(args: string[]) {
+                _StdOut.putText("tabtest2");
+            }
+            */
         }
     }
     TSOS.Shell = Shell;

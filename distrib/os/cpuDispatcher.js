@@ -3,6 +3,10 @@ cpuDispatcher.ts
 
 CPU Dispatcher
 The CPU Dispatcher handles context switches from the CPU Scheduler.
+
+When swapping from mem to disk, swap the last memeory segment with the disk (mem segment 2) this leads to the least
+amount of swapping
+
 ------------  */
 var TSOS;
 (function (TSOS) {

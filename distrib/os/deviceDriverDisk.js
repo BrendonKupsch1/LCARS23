@@ -3,22 +3,18 @@
 
     Device Driver Disk
 ----------------- */
-
-module TSOS {
-
-    export class DeviceDriverDisk extends DeviceDriver {
-
+var TSOS;
+(function (TSOS) {
+    class DeviceDriverDisk extends TSOS.DeviceDriver {
         constructor() {
             super();
             this.driverEntry = this.krnDiskDriverEntry;
         }
-
-        public krnDiskDriverEntry() {
+        krnDiskDriverEntry() {
             // Initialization routine for this, the kernel-mode Disk Device Driver.
             this.status = "loaded";
         }
-
-        public format() {
+        format() {
             // format the disk
             _Kernel.krnTrace("Formatting disk.");
             var block = this.createBlock();
@@ -40,17 +36,13 @@ module TSOS {
             _Kernel.krnTrace("Disk formatted.");
             TSOS.Control.updateDiskDisplay();
         }
-
-        public createBlock(): string[] {
+        createBlock() {
             // creates block with array size of 64
             let block = new Array(64);
-
             return block;
         }
-
-        public createFile(fileName: string): boolean {
+        createFile(fileName) {
             // create a file starting at directory block 001
-            
             var fileTSB = this.getFileTSB(fileName);
             if (fileTSB != null) {
                 return false;
@@ -74,8 +66,7 @@ module TSOS {
                 return true;
             }
         }
-
-        public createSwapFile(pid: number, fileData: string): boolean {
+        createSwapFile(pid, fileData) {
             var fileName = "@swap" + pid;
             if (this.createFile(fileName)) {
                 if (this.writeFile(fileName, fileData, true)) {
@@ -92,8 +83,7 @@ module TSOS {
             }
             return true;
         }
-
-        public nextDirectoryEntry(): string {
+        nextDirectoryEntry() {
             // finds next directory entry to store filename that is being created
             for (var i = 0; i < _Disk.numSectors; i++) {
                 for (var j = 0; j < _Disk.numTracks; j++) {
@@ -105,8 +95,7 @@ module TSOS {
             }
             return null;
         }
-
-        public nextDataEntry(): string {
+        nextDataEntry() {
             // finds next data entry to store file data
             for (var i = 1; i < _Disk.numTracks; i++) {
                 for (var j = 0; j < _Disk.numSectors; j++) {
@@ -120,8 +109,7 @@ module TSOS {
             }
             return null;
         }
-        
-        public readFile(fileName: string, fileLoc: string, fileData: string, hexFile: boolean): string {
+        readFile(fileName, fileLoc, fileData, hexFile) {
             // read file data from data block
             if (hexFile == undefined) {
                 hexFile = false;
@@ -157,13 +145,11 @@ module TSOS {
                 return null;
             }
         }
-
-        public writeFile(fileName: string, fileData: string, hexFile?: boolean, nextDataTSB?: string): boolean {
+        writeFile(fileName, fileData, hexFile, nextDataTSB) {
             // write file data to data block
             // find tsb of directory entry with file name
             // go into tsb to get just the fileName
             // write that data to the data tsb
-
             var fileDataTSB = this.getFileDataTSB(fileName);
             if (fileDataTSB != null) {
                 var dataBlock = this.createBlock();
@@ -221,8 +207,7 @@ module TSOS {
                 return false;
             }
         }
-
-        public getFileDataTSB(fileName: string): string {
+        getFileDataTSB(fileName) {
             // takes fileName and returns the t,s,b of where the data in the file is stored
             let tsbFile = this.getFileTSB(fileName);
             if (tsbFile != null) {
@@ -233,8 +218,7 @@ module TSOS {
                 return null;
             }
         }
-
-        public getFileTSB(fileName: string): string {
+        getFileTSB(fileName) {
             // takes fileName and returns the t,s,b of where the file is stored
             for (let i = 0; i < _Disk.numSectors; i++) {
                 for (let j = 0; j < _Disk.numBlocks; j++) {
@@ -254,8 +238,7 @@ module TSOS {
             }
             return null;
         }
-
-        public getFileName(data: string[]): string {
+        getFileName(data) {
             // takes in block of data and returns filename
             let fileName = "";
             for (let i = 4; i < data.length; i++) {
@@ -268,8 +251,7 @@ module TSOS {
             }
             return fileName;
         }
-
-        public deleteFile(fileName: string): boolean {
+        deleteFile(fileName) {
             // delete file from disk
             var dataTSBtoDelete = this.getFileDataTSB(fileName);
             if (this.deleteFileDirectory(fileName) && this.deleteFileData(dataTSBtoDelete)) {
@@ -279,8 +261,7 @@ module TSOS {
                 return false;
             }
         }
-
-        public deleteFileData(dataTSBtoDelete: string): boolean {
+        deleteFileData(dataTSBtoDelete) {
             // delete file data from data block
             if (dataTSBtoDelete != null) {
                 var dataToDelete = sessionStorage.getItem(dataTSBtoDelete).split(" ");
@@ -308,8 +289,7 @@ module TSOS {
                 return false;
             }
         }
-        
-        public deleteFileDirectory(fileName: string): boolean {
+        deleteFileDirectory(fileName) {
             // delete file directory
             var fileTSB = this.getFileTSB(fileName);
             if (fileTSB != null) {
@@ -328,8 +308,7 @@ module TSOS {
                 return false;
             }
         }
-
-        public copyFile(fileName: string, newFileName: string): boolean {
+        copyFile(fileName, newFileName) {
             // create new file then write existing file contents to new file
             var fileTSB = this.getFileTSB(fileName);
             var newTSB = this.getFileTSB(newFileName);
@@ -349,8 +328,7 @@ module TSOS {
                 return false;
             }
         }
-
-        public renameFile(fileName: string, newFileName: string): boolean {
+        renameFile(fileName, newFileName) {
             // write over existing file name with new file name
             var fileTSB = this.getFileTSB(fileName);
             var oldFileTSB = this.getFileDataTSB(fileName);
@@ -371,8 +349,7 @@ module TSOS {
                 return false;
             }
         }
-
-        public listFiles(): string[] {
+        listFiles() {
             // list all files on disk
             var fileList = [];
             for (var i = 0; i < _Disk.numSectors; i++) {
@@ -389,13 +366,13 @@ module TSOS {
             }
             return fileList;
         }
-
-        public decimalToHex(decimal: number): string {
+        decimalToHex(decimal) {
             return decimal.toString(16);
         }
-
-        public hexToDecimal(hex: string): number {
+        hexToDecimal(hex) {
             return parseInt(hex, 16);
         }
     }
-}
+    TSOS.DeviceDriverDisk = DeviceDriverDisk;
+})(TSOS || (TSOS = {}));
+//# sourceMappingURL=deviceDriverDisk.js.map

@@ -64,7 +64,7 @@ var _Memory: TSOS.Memory; // = new TSOS.Memory();
 var _MemorySize: number = 768;
 var _MemoryAccessor: TSOS.MemoryAccessor; // = new TSOS.MemoryAccessor();
 var _Disk: TSOS.Disk; // = new TSOS.Disk();
-var _isDiskFormat: boolean = false;
+var _IsDiskFormat: boolean = false;
 
 // software
 var _MemoryManager: any	=	null; 

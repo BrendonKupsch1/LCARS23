@@ -190,7 +190,6 @@ module TSOS {
             var table = document.getElementById("diskTable");
             var tableBody = "<tbody>" + "<tr>" + "<th>T:S:B</th><th>Used</th><th>Next</th><th>Data</th>" +
             "</tr>";
-
             for (var i = 0; i < _Disk.numTracks; i++) {
                 for (var j = 0; j < _Disk.numSectors; j++) {
                     for (var k = 0; k < _Disk.numBlocks; k++) {

@@ -11,7 +11,7 @@
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
 const APP_NAME = "LCARS23"; // 'cause Bob and I were at a loss for a better name.
-const APP_VERSION = "1.3D"; // What did you expect?
+const APP_VERSION = "1.4A"; // What did you expect?
 const CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 second.
 const TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
 // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
@@ -47,14 +47,18 @@ var _CPU;
 var _Memory; // = new TSOS.Memory();
 var _MemorySize = 768;
 var _MemoryAccessor; // = new TSOS.MemoryAccessor();
+var _Disk; // = new TSOS.Disk();
+var _IsDiskFormat = false;
 // software
 var _MemoryManager = null;
 var _CpuScheduler; // = new TSOS.CpuScheduler();
 var _CpuDispatcher; // = new TSOS.CpuDispatcher();
+var _CpuSwapper; // = new TSOS.CpuSwapper();
 // At least this OS is not trying to kill you. (Yet.)
 var _SarcasticMode = false;
 // Global Device Driver Objects - page 12
 var _krnKeyboardDriver = null;
+var _krnDiskDriver = null;
 var _hardwareClockID = null;
 // For testing (and enrichment)...
 var Glados = null; // This is the function Glados() in glados-ip*.js http://alanclasses.github.io/TSOS/test/ .
