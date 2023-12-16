@@ -161,6 +161,54 @@
                                         "<int> - Sets the quantum for Round Robin scheduling.");
                 this.commandList[this.commandList.length] = sc;
 
+                // format
+                sc = new ShellCommand(this.shellFormat,
+                                        "format",
+                                        "- Formats the disk.");
+                this.commandList[this.commandList.length] = sc;
+
+                // create
+                sc = new ShellCommand(this.shellCreate,
+                                        "create",
+                                        "<filename> - Creates a file.");
+                this.commandList[this.commandList.length] = sc;
+
+                // read
+                sc = new ShellCommand(this.shellRead,
+                                        "read",
+                                        "<filename> - Reads a file.");
+                this.commandList[this.commandList.length] = sc;
+
+                // write
+                sc = new ShellCommand(this.shellWrite,
+                                        "write",
+                                        "<filename> \"data\" - Writes data to a file.");
+                this.commandList[this.commandList.length] = sc;
+
+                // delete
+                sc = new ShellCommand(this.shellDelete,
+                                        "delete",
+                                        "<filename> - Deletes a file.");
+                this.commandList[this.commandList.length] = sc;
+
+                // copy
+                sc = new ShellCommand(this.shellCopy,
+                                        "copy",
+                                        "<filename> <newfilename> - Copies a file.");
+                this.commandList[this.commandList.length] = sc;
+
+                // rename
+                sc = new ShellCommand(this.shellRename,
+                                        "rename",
+                                        "<filename> <newfilename> - Renames a file.");
+                this.commandList[this.commandList.length] = sc;
+
+                // ls
+                sc = new ShellCommand(this.shellLs,
+                                        "ls",
+                                        "- Lists all files on disk.");
+                this.commandList[this.commandList.length] = sc;
+
                 // tab completion testing
                 /* sc = new ShellCommand(this.shellTabTest1,
                                         "tabtest1",
@@ -375,6 +423,30 @@
                             break;
                         case "quantum":
                             _StdOut.putText("Quantum <int> sets the quantum for Round Robin scheduling.");
+                            break;
+                        case "format":
+                            _StdOut.putText("Format formats the disk.");
+                            break;
+                        case "create":
+                            _StdOut.putText("Create <filename> creates a file.");
+                            break;
+                        case "read":
+                            _StdOut.putText("Read <filename> reads a file.");
+                            break;
+                        case "write":
+                            _StdOut.putText("Write <filename> \"data\" writes data to a file.");
+                            break;
+                        case "delete":
+                            _StdOut.putText("Delete <filename> deletes a file.");
+                            break;
+                        case "copy":
+                            _StdOut.putText("Copy <filename> <newfilename> copies a file.");
+                            break;
+                        case "rename":
+                            _StdOut.putText("Rename <filename> <newfilename> renames a file.");
+                            break;
+                        case "ls":
+                            _StdOut.putText("Ls lists all files on disk.");
                             break;
                         
                         default:
