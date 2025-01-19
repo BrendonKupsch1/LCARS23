@@ -6,7 +6,7 @@ See https://www.labouseur.com/courses/os/ for details.
 It was originally developed by Alan and then enhanced by alums Bob Nisco and Rebecca Murphy over the years.
 
 To run the project locally using http-server
-================
+============================================
 
 1. Install http-server:
       npm install -g http-server
@@ -14,6 +14,7 @@ To run the project locally using http-server
       http-server
 
 Brendon Kupsch's notes:
+=======================
 My brother Evan Kupsch helped me with memeory and pcb implementation, and with difficult errors that I was stuck on.
 Using GitHub Copilot to help write this code.
  https://copilot.github.com/ 
