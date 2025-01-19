@@ -4,8 +4,14 @@
 This is Alan's Operating Systems class initial project.
 See https://www.labouseur.com/courses/os/ for details.
 It was originally developed by Alan and then enhanced by alums Bob Nisco and Rebecca Murphy over the years.
-Clone this into your own private repository. Better yet, download it as a ZIP file and use it to initialize your own repository for this class. 
-Then add Alan (userid *Labouseur*) as a collaborator.
+
+To run the project locally using http-server
+================
+
+1. Install http-server:
+      npm install -g http-server
+2. Start the server:
+      http-server
 
 Setup TypeScript
 ================
