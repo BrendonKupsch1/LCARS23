@@ -46,9 +46,9 @@
 
 <body onload="onDocumentLoad()">
 
-<div id="divMain" class="main-container" style="width:100%;">
+<div id="divMain" style="width:100%;">
 
-   <div id="divButtonBar" class="button-bar" style="margin:4px;">
+   <div id="divButtonBar" style="margin:4px;">
       <input type="button"
              id = "btnStartOS"
              name="brnStartOS"
@@ -94,68 +94,63 @@
                onclick="TSOS.Control.hostBtnNextStep_click(this);">
    </div>
 
-   <div id="divConsole" class="console-container" style="margin:4px; width:500px; height:500px; float:left;">
+   <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left;">
       <canvas id="display"
-              class="canvas-display"
               width="500px"
               height="500px"
               tabindex="3">
       </canvas>
    </div>
 
-   <div id="divLog" class="log-container" style="margin-left:520px;">
+   <div id="divLog" style="margin-left:520px;">
       <label>
          Host Log
          <br>
          <textarea name="taHostLog"
                    id  ="taHostLog"
-                   class="log-textarea"
                    rows="26"
                    cols="48"
          ></textarea>
       </label>
    </div>
 
-   <div id="divUserProgramInput" class="user-program-input-container" style="margin-left:520px;">
+   <div id="divUserProgramInput" style="margin-left:520px;">
       <label>
          User Program Input
          <br>
          <textarea name="taProgramInput"
                    id  ="taProgramInput"
-                   class="user-program-input-textarea"
                    rows="8"
                    cols="48"
          ></textarea>
       </label>
    </div>
 
-   <div id="divCurrentDateTime" class="current-datetime-container" style="margin-left:520px;">
+   <div id="divCurrentDateTime" style="margin-left:520px;">
       <label>
          Current Date/Time
          <br>
          <textarea name="taCurrentDateTime"
                    id  ="taCurrentDateTime"
-                   class="current-datetime-textarea"
                    rows="2"
                    cols="48"
          ></textarea>
       </label>
    </div>
 
-   <div id="divStatus" class="status-container" style="margin-left:520px;">
+   <div id="divStatus" style="margin-left:520px;">
       <label>
          Status
          <br>
          <textarea name="taStatus"
                    id  ="taStatus"
-                   class="status-textarea"
                    rows="2"
                    cols="48"
          ></textarea>
       </label>
    </div>
 
-   <div id="divMemoryDisplay" class="memory-display-container" style="margin-left: 520px">
+   <div id="divMemoryDisplay" style="margin-left: 520px">
       <label>
          Memory Display
          <br>
@@ -168,7 +163,7 @@
          
    </div>
 
-   <div id="divCpuDisplay" class="cpu-display-container" style="margin-left: 520px">
+   <div id="divCpuDisplay" style="margin-left: 520px">
       <label>
          CPU
          <br>
@@ -181,7 +176,7 @@
       </label>
    </div>   
 
-   <div id="divPcbDisplay" class="pcb-display-container" style="margin-left: 520px">
+   <div id="divPcbDisplay" style="margin-left: 520px">
       <label>
          Ready Queue
          <br>
@@ -194,7 +189,7 @@
       </label>
    </div>
 
-   <div id="divDiskDisplay" class="disk-display-container" style="margin-right: 520px">
+   <div id="divDiskDisplay" style="margin-right: 520px">
       <label>
          Disk
          <br>
